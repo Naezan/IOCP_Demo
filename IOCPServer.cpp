@@ -19,9 +19,9 @@ void CIOCPServer::OnConnected(UINT16 Index)
 	printf_s("[Connected] Client : [%d]\n", Index);
 }
 
-void CIOCPServer::OnReceived(UINT16 Index, UINT32 InSize)
+void CIOCPServer::OnProcessed(UINT16 Index, UINT32 InSize)
 {
-	printf_s("[Received] Client : [%d], DataSize : %d\n", Index, InSize);
+	printf_s("[OnProcessed] Client : [%d], DataSize : %d\n", Index, InSize);
 
 	//클라에게 연결이 되었다는 패킷 전달
 	/*lock_guard<mutex> Guard(SendQueLock);
@@ -208,7 +208,6 @@ bool CIOCPServer::SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 Packet
 	{
 		if (ClientContext->SendPendingPacket(PacketData, PacketSize))
 		{
-			ClientContext->CompleteSendPacket();
 			return true;
 		}
 	}
@@ -317,13 +316,21 @@ void CIOCPServer::WorkThread()
 			continue;
 		}
 
-		//Send Receive분기 필요(현재는 작업이 끝난 모든 경우를 다따져서 계산함)
-		SPacketContext* ReceivedContext = reinterpret_cast<SPacketContext*>(LpOverlapped);
-		PacketHeader* Header = (PacketHeader*)ReceivedContext->WsaBuf.buf;
+		SOverlappedEx* LpOverlappedEx = (SOverlappedEx*)LpOverlapped;
+		if (EPacketOperation::RECV == LpOverlappedEx->Operation)
+		{
+			cout << "[수신] 수신된 데이터 크기 : " << TransferredByte << endl;
+			PacketHeader* Header = (PacketHeader*)ClientContext->GetRecvData();
 
-		DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
+			DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
+		}
+		else if (EPacketOperation::SEND == LpOverlappedEx->Operation)
+		{
+			cout << "[송신 완료] 데이터가 성공적으로 송신됨" << endl;
+			ClientContext->CompleteSendPacket();
+		}
 
-		OnReceived(ClientContext->GetIndex(), TransferredByte);
+		//OnProcessed(ClientContext->GetIndex(), TransferredByte);
 	}
 }
 
@@ -366,7 +373,7 @@ void CIOCPServer::AcceptThread()
 
 		++ClientCount;
 
-		ClientContext->RecvPacket();
+		ClientContext->ReceivePacket();
 	}
 }
 
@@ -407,12 +414,10 @@ void CIOCPServer::DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 D
 
 void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 {
-	PacketBuffer RecvBuffer;
-	RecvBuffer.ReservePacket(DataSize);
-	RecvBuffer.CopyPacket(Data, DataSize);
+	//여기서 전송받은 Data는 패킷 헤더를 제외한 proto데이터 모음
 
 	Shooter::PClientId LoginPacket;
-	LoginPacket.ParseFromArray(RecvBuffer.GetBuffer(), DataSize);
+	LoginPacket.ParseFromArray(Data, DataSize);
 
 	//플레이어로부터 응답받음 -> 모든 플레이어에게 브로드캐스팅
 	lock_guard<mutex> Guard(SendQueLock);

@@ -9,7 +9,7 @@ public:
 	{
 		IsSending = false;
 		Index = -1;
-		ZeroMemory(&RecvOverlapped, sizeof(SPacketContext));
+		ZeroMemory(&RecvPacket, sizeof(SOverlappedEx));
 		ZeroMemory(&RecvBuffer, sizeof(MAX_PACKETBUF));
 		Socket = INVALID_SOCKET;
 	}
@@ -30,14 +30,14 @@ public:
 	bool BindServerPort(HANDLE InIOCPHandle);
 	bool SendPendingPacket(char* InData, int DataLen);
 	void CompleteSendPacket();
-	bool RecvPacket();
+	bool ReceivePacket();
 	void CloseSocket(bool bIsForce = false);
 
 private:
 	bool IsSending;
 	INT32 Index;
 	SOCKET Socket;
-	SPacketContext RecvOverlapped;
+	SOverlappedEx RecvPacket;
 
 	char RecvBuffer[MAX_PACKETBUF];
 };

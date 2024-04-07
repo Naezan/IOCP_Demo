@@ -12,8 +12,8 @@ public:
 
 	// 서버와 클라가 연결되었을 때 호출
 	virtual void OnConnected(UINT16 Index);
-	// 서버가 클라로부터 데이터를 받았을 때 호출
-	virtual void OnReceived(UINT16 Index, UINT32 InSize);
+	// 서버가 클라로부터 데이터를 처리중일 때 호출
+	virtual void OnProcessed(UINT16 Index, UINT32 InSize);
 	// 서버와 클라의 접속이 끊겼을 때 호출
 	virtual void OnClosed(UINT16 Index);
 

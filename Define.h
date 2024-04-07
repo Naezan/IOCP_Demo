@@ -29,7 +29,13 @@ using namespace std;
 // 충돌되지 않는 임의의 포트 지정
 constexpr UINT16 SOCK_MAXCONN = 5;
 
-enum EPacketType
+enum EPacketOperation : uint8_t
+{
+	SEND,
+	RECV,
+};
+
+enum EPacketType : uint16_t
 {
 	Login_C,
 	Login_S,
@@ -46,14 +52,12 @@ enum EPacketType
 struct PacketHeader
 {
 	UINT16 PacketSize;
-	UINT8 PacketID;
-private:
-	UINT8 DummyPacket;
+	UINT16 PacketID;
 };
 
-struct SPacketContext
+struct SOverlappedEx
 {
-	OVERLAPPED Overlapped;
+	WSAOVERLAPPED WSAOverlapped;
 	WSABUF WsaBuf;
-	char PacketBuffer[MAX_PACKETBUF];
+	EPacketOperation Operation;
 };

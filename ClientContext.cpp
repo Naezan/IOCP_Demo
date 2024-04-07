@@ -47,19 +47,19 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	DWORD Flags = 0;
 	DWORD BytesSent = 0;
 
-	SPacketContext* SendOverlapped = new SPacketContext;
-	ZeroMemory(SendOverlapped, sizeof(SPacketContext));
-
-	SendOverlapped->WsaBuf.len = DataLen;
-	SendOverlapped->WsaBuf.buf = new char[DataLen];
-	CopyMemory(SendOverlapped->WsaBuf.buf, InData, DataLen);
+	SOverlappedEx* SendPacket = new SOverlappedEx;
+	ZeroMemory(SendPacket, sizeof(SOverlappedEx));
+	SendPacket->WsaBuf.len = DataLen;
+	SendPacket->WsaBuf.buf = new char[DataLen];
+	CopyMemory(SendPacket->WsaBuf.buf, InData, DataLen);
+	SendPacket->Operation = EPacketOperation::SEND;
 
 	int Result = WSASend(Socket,
-		&(SendOverlapped->WsaBuf),
+		&(SendPacket->WsaBuf),
 		1,
 		&BytesSent,
 		Flags,
-		(LPWSAOVERLAPPED) & (SendOverlapped->Overlapped),
+		(LPWSAOVERLAPPED)SendPacket,
 		NULL);
 
 	//SOCKET_ERROR이면 서버는 클라이언트의 데이터 송신에 실패함
@@ -77,24 +77,22 @@ void CClientContext::CompleteSendPacket()
 	IsSending = false;
 }
 
-bool CClientContext::RecvPacket()
+bool CClientContext::ReceivePacket()
 {
 	DWORD Flags = 0;
 	DWORD BytesReceived = 0;
 
 	//Overlapped I/O 정보 셋팅
-	ZeroMemory(&RecvOverlapped, sizeof(SPacketContext));
-	ZeroMemory(&RecvBuffer, sizeof(MAX_PACKETBUF));
-
-	RecvOverlapped.WsaBuf.buf = RecvBuffer;
-	RecvOverlapped.WsaBuf.len = MAX_PACKETBUF;
+	RecvPacket.WsaBuf.buf = RecvBuffer;
+	RecvPacket.WsaBuf.len = MAX_PACKETBUF;
+	RecvPacket.Operation = EPacketOperation::RECV;
 
 	int Result = WSARecv(Socket,
-		&(RecvOverlapped.WsaBuf),
+		&(RecvPacket.WsaBuf),
 		1,
 		&BytesReceived,
 		&Flags,
-		(LPWSAOVERLAPPED) & (RecvOverlapped.Overlapped),
+		(LPWSAOVERLAPPED) & (RecvPacket),
 		NULL);
 
 	//SOCKET_ERROR이면 데이터 수신에 실패함
