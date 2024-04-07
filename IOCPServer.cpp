@@ -247,7 +247,6 @@ PacketBuffer CIOCPServer::GetPendingPacket()
 	}
 
 	PacketBuffer Packet = IOSendPacketQue.front();
-	IOSendPacketQue.front().Destroy();
 	IOSendPacketQue.pop_front();
 
 	return Packet;
@@ -319,8 +318,8 @@ void CIOCPServer::WorkThread()
 		SOverlappedEx* LpOverlappedEx = (SOverlappedEx*)LpOverlapped;
 		if (EPacketOperation::RECV == LpOverlappedEx->Operation)
 		{
-			cout << "[수신] 수신된 데이터 크기 : " << TransferredByte << endl;
 			PacketHeader* Header = (PacketHeader*)ClientContext->GetRecvData();
+			cout << "[수신] 수신된 데이터 크기 : " << Header->PacketSize << endl;
 
 			DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
 		}
@@ -414,14 +413,14 @@ void CIOCPServer::DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 D
 
 void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 {
-	//여기서 전송받은 Data는 패킷 헤더를 제외한 proto데이터 모음
+	lock_guard<mutex> Guard(SendQueLock);
 
 	Shooter::PClientId LoginPacket;
 	LoginPacket.ParseFromArray(Data, DataSize);
 
 	//플레이어로부터 응답받음 -> 모든 플레이어에게 브로드캐스팅
-	lock_guard<mutex> Guard(SendQueLock);
 	PacketBuffer LoginBuffer = SerializePacket<Shooter::PClientId>(LoginPacket, Login_C, LoginPacket.index());
+
 	IOSendPacketQue.push_back(LoginBuffer);
 }
 

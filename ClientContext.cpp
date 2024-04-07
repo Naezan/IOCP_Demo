@@ -59,7 +59,7 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 		1,
 		&BytesSent,
 		Flags,
-		(LPWSAOVERLAPPED)SendPacket,
+		(LPWSAOVERLAPPED)&(SendPacket->WSAOverlapped),
 		NULL);
 
 	//SOCKET_ERROR이면 서버는 클라이언트의 데이터 송신에 실패함
@@ -92,7 +92,7 @@ bool CClientContext::ReceivePacket()
 		1,
 		&BytesReceived,
 		&Flags,
-		(LPWSAOVERLAPPED) & (RecvPacket),
+		(LPWSAOVERLAPPED)&(RecvPacket.WSAOverlapped),
 		NULL);
 
 	//SOCKET_ERROR이면 데이터 수신에 실패함
