@@ -1,0 +1,41 @@
+syntax = "proto3";
+package Shooter;
+
+message PVector {
+	float X = 1;
+	float Y = 2;
+	float Z = 3;
+}
+
+message PRotator {
+	float Roll = 1;
+	float Pitch = 2;
+	float Yaw = 3;
+}
+
+message PPawnStatus {
+	optional float Health = 1;
+	optional uint32 EquipmentIndex = 2;
+}
+
+message PClientId {
+	uint32 Index = 1;
+}
+
+message PCharacter {
+	PClientId Id = 1;
+	PPawnStatus Status = 2;
+}
+
+message PMovement {
+	PClientId Id = 1;
+	optional PVector Loc = 2;
+	optional PRotator Rot = 3;
+	optional PVector Vel = 4;
+}
+
+message PAnimState {
+	PClientId Id = 1;
+	optional float AimYaw = 2;
+	optional float AimPitch = 3;
+}
