@@ -160,6 +160,11 @@ bool CIOCPServer::ExecuteMainThread()
 		return false;
 	}
 
+	if (!CreateSendBroadCastThread())
+	{
+		return false;
+	}
+
 	cout << "서버 구동 시작\n" << endl;
 	return true;
 }
@@ -190,6 +195,12 @@ void CIOCPServer::CloseThread()
 		IOSendThread.join();
 	}
 
+	IsSendBroadCastThreadRun = false;
+	if (IOSendBroadCastThread.joinable())
+	{
+		IOSendBroadCastThread.join();
+	}
+
 	CloseHandle(IOCPHandle);
 }
 
@@ -198,7 +209,7 @@ void CIOCPServer::CreateClient(const UINT32 MaxClientCount)
 	for (UINT32 i = 0; i < MaxClientCount; ++i)
 	{
 		CClientContext* ClientContext = new CClientContext();
-		ClientContext->Init(i + 1);
+		ClientContext->Init(i);
 
 		ClientContexts.push_back(ClientContext);
 	}
@@ -219,6 +230,22 @@ bool CIOCPServer::SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 Packet
 	}
 
 	return false;
+}
+
+bool CIOCPServer::SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize)
+{
+	for (const auto& Client : ClientContexts)
+	{
+		if (Client->IsConnected())
+		{
+			if (!Client->SendPendingPacket(PacketData, PacketSize))
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 void CIOCPServer::DisconnectSocket(CClientContext* ClientContext, bool bIsForce)
@@ -258,6 +285,23 @@ PacketBuffer CIOCPServer::GetPendingPacket()
 	return Packet;
 }
 
+PacketBuffer CIOCPServer::GetPendingBCPacket()
+{
+	// 큐에 push될때 비동기적으로 실행시 nullptr을 반환하거나 댕글링포인터를 참조하는 일이 벌어질 수 있다.
+	// push하는 곳과 pop하는 곳에서는 필시 blocking을 해주도록 하자.
+	lock_guard<mutex> Guard(SendQueLock);
+
+	if (IOSendBCPacketQue.empty())
+	{
+		return PacketBuffer();
+	}
+
+	PacketBuffer Packet = IOSendBCPacketQue.front();
+	IOSendBCPacketQue.pop_front();
+
+	return Packet;
+}
+
 bool CIOCPServer::CreateWorkThread()
 {
 	for (int i = 0; i < MaxWorkThreadCount; i++)
@@ -286,6 +330,16 @@ bool CIOCPServer::CreateSendThread()
 		});
 
 	cout << "SendThread 실행..." << endl;
+	return true;
+}
+
+bool CIOCPServer::CreateSendBroadCastThread()
+{
+	IOSendBroadCastThread = thread([this]() {
+		SendBroadCastThread();
+		});
+
+	cout << "SendBrouadCastThread 실행..." << endl;
 	return true;
 }
 
@@ -403,6 +457,27 @@ void CIOCPServer::SendThread()
 	}
 }
 
+void CIOCPServer::SendBroadCastThread()
+{
+	while (IsSendBroadCastThreadRun)
+	{
+		PacketBuffer PacketData = GetPendingBCPacket();
+
+		if (PacketData.GetSize() > 0)
+		{
+			// 여기서 클라이언트에게 비동기적으로 패킷 전송
+			if (SendPacketBroadCast(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize()))
+			{
+				printf_s("[전송] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
+			}
+		}
+		else
+		{
+			this_thread::sleep_for(std::chrono::milliseconds(5));
+		}
+	}
+}
+
 void CIOCPServer::DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 DataSize)
 {
 	auto it = PacketFuncMap.find(InPacketID);
@@ -425,8 +500,8 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 	LoginPacket.ParseFromArray(Data, DataSize);
 
 	PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.mutable_id()->index());
-	IOSendPacketQue.push_back(LoginBuffer);
 	// 패킷 브로드캐스팅
+	IOSendBCPacketQue.push_back(LoginBuffer);
 }
 
 void CIOCPServer::RecvCharacterPacket(void* Data, UINT16 DataSize)

@@ -27,27 +27,31 @@ public:
 
 	void CreateClient(const UINT32 MaxClientCount);
 	bool SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize);
+	bool SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize);
 	void DisconnectSocket(CClientContext* ClientContext, bool bIsForce = false);
 
 	CClientContext* GetEmptyClientContext();
 	CClientContext* GetClientContext(UINT32 ClientIndex)
 	{
-		return ClientContexts[ClientIndex - 1];
+		return ClientContexts[ClientIndex];
 	}
 
 	PacketBuffer GetPendingPacket();
+	PacketBuffer GetPendingBCPacket();
 
 private:
 	bool CreateWorkThread();
 	// 클러 접속 수신용 스레드
 	bool CreateAcceptThread();
 	bool CreateSendThread();
+	bool CreateSendBroadCastThread();
 
 	void WorkThread();
 	// 클라이언트의 접속 수신. 접속은 한번에 한명씩
 	void AcceptThread();
 	// 데이터 전송은 한쓰레드에서 한 패킷씩
 	void SendThread();
+	void SendBroadCastThread();
 
 private:
 	template<typename T>
@@ -86,6 +90,7 @@ private:
 
 	vector<CClientContext*> ClientContexts;
 	deque<PacketBuffer> IOSendPacketQue;
+	deque<PacketBuffer> IOSendBCPacketQue;
 	int MaxWorkThreadCount = 5;
 	//현재 연결된 클라이언트 수
 	int ClientCount = 0;
@@ -93,6 +98,7 @@ private:
 	vector<thread> IOWorkerThreads;
 	thread IOAcceptThread;
 	thread IOSendThread;
+	thread IOSendBroadCastThread;
 
 	mutex SendLock;
 	mutex SendQueLock;
@@ -100,4 +106,5 @@ private:
 	bool IsWorkThreadRun = true;
 	bool IsAcceptThreadRun = true;
 	bool IsSendThreadRun = true;
+	bool IsSendBroadCastThreadRun = true;
 };
