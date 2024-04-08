@@ -37,6 +37,7 @@ enum EPacketOperation : uint8_t
 
 enum EPacketType : uint16_t
 {
+	Conn_C,
 	Login_C,
 	Login_S,
 	PawnStatus_C,

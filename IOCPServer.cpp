@@ -16,7 +16,13 @@ CIOCPServer::~CIOCPServer()
 
 void CIOCPServer::OnConnected(UINT16 Index)
 {
-	printf_s("[Connected] Client : [%d]\n", Index);
+	printf_s("[클라와 연결됨] Client : [%d]\n", Index);
+
+	Shooter::PClientId ConnectPacket;
+	ConnectPacket.set_index(Index);
+
+	PacketBuffer ConnectBuffer = SerializePacket<Shooter::PClientId>(ConnectPacket, Conn_C, ConnectPacket.index());
+	IOSendPacketQue.push_back(ConnectBuffer);
 }
 
 void CIOCPServer::OnProcessed(UINT16 Index, UINT32 InSize)
@@ -415,13 +421,12 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 {
 	lock_guard<mutex> Guard(SendQueLock);
 
-	Shooter::PClientId LoginPacket;
+	Shooter::PMovement LoginPacket;
 	LoginPacket.ParseFromArray(Data, DataSize);
 
-	//플레이어로부터 응답받음 -> 모든 플레이어에게 브로드캐스팅
-	PacketBuffer LoginBuffer = SerializePacket<Shooter::PClientId>(LoginPacket, Login_C, LoginPacket.index());
-
+	PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.mutable_id()->index());
 	IOSendPacketQue.push_back(LoginBuffer);
+	// 패킷 브로드캐스팅
 }
 
 void CIOCPServer::RecvCharacterPacket(void* Data, UINT16 DataSize)
