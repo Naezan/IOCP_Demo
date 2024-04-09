@@ -236,7 +236,7 @@ bool CIOCPServer::SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT
 {
 	for (int i = 0; i < ClientContexts.size();)
 	{
-		if (ClientContexts[i]->IsConnected())
+		if (ClientContexts[i]->IsConnected() && ClientIndex != ClientContexts[i]->GetIndex())
 		{
 			if (!ClientContexts[i]->SendPendingPacket(PacketData, PacketSize))
 			{
