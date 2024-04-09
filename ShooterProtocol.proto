@@ -13,18 +13,25 @@ message PRotator {
 	float Yaw = 3;
 }
 
-message PPawnStatus {
-	optional float Health = 1;
-	optional uint32 EquipmentIndex = 2;
+message PEquipment {
+	optional uint32 EquipmentIndex = 1;
+}
+
+message PWeapon {
+	optional bool WantToFire = 1;
+	optional uint32 WeaponState = 2;
+	optional uint32 AmmoCount = 3;
 }
 
 message PClientId {
 	uint32 Index = 1;
 }
 
-message PCharacter {
+message PPawnStatus {
 	PClientId Id = 1;
-	PPawnStatus Status = 2;
+	optional float Health = 2;
+	optional PEquipment EquipInfo = 3;
+	optional PWeapon WeaponInfo = 4;
 }
 
 message PMovement {

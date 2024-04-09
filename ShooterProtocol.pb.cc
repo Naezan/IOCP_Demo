@@ -51,21 +51,36 @@ struct PRotatorDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRotatorDefaultTypeInternal _PRotator_default_instance_;
-PROTOBUF_CONSTEXPR PPawnStatus::PPawnStatus(
+PROTOBUF_CONSTEXPR PEquipment::PEquipment(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.health_)*/0
   , /*decltype(_impl_.equipmentindex_)*/0u} {}
-struct PPawnStatusDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PPawnStatusDefaultTypeInternal()
+struct PEquipmentDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PEquipmentDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PPawnStatusDefaultTypeInternal() {}
+  ~PEquipmentDefaultTypeInternal() {}
   union {
-    PPawnStatus _instance;
+    PEquipment _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PPawnStatusDefaultTypeInternal _PPawnStatus_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PEquipmentDefaultTypeInternal _PEquipment_default_instance_;
+PROTOBUF_CONSTEXPR PWeapon::PWeapon(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.wanttofire_)*/false
+  , /*decltype(_impl_.weaponstate_)*/0u
+  , /*decltype(_impl_.ammocount_)*/0u} {}
+struct PWeaponDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PWeaponDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PWeaponDefaultTypeInternal() {}
+  union {
+    PWeapon _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PWeaponDefaultTypeInternal _PWeapon_default_instance_;
 PROTOBUF_CONSTEXPR PClientId::PClientId(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.index_)*/0u
@@ -79,20 +94,23 @@ struct PClientIdDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PClientIdDefaultTypeInternal _PClientId_default_instance_;
-PROTOBUF_CONSTEXPR PCharacter::PCharacter(
+PROTOBUF_CONSTEXPR PPawnStatus::PPawnStatus(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.id_)*/nullptr
-  , /*decltype(_impl_.status_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct PCharacterDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PCharacterDefaultTypeInternal()
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.id_)*/nullptr
+  , /*decltype(_impl_.equipinfo_)*/nullptr
+  , /*decltype(_impl_.weaponinfo_)*/nullptr
+  , /*decltype(_impl_.health_)*/0} {}
+struct PPawnStatusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PPawnStatusDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PCharacterDefaultTypeInternal() {}
+  ~PPawnStatusDefaultTypeInternal() {}
   union {
-    PCharacter _instance;
+    PPawnStatus _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PCharacterDefaultTypeInternal _PCharacter_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PPawnStatusDefaultTypeInternal _PPawnStatus_default_instance_;
 PROTOBUF_CONSTEXPR PMovement::PMovement(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
@@ -127,7 +145,7 @@ struct PAnimStateDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PAnimStateDefaultTypeInternal _PAnimState_default_instance_;
 }  // namespace Shooter
-static ::_pb::Metadata file_level_metadata_ShooterProtocol_2eproto[7];
+static ::_pb::Metadata file_level_metadata_ShooterProtocol_2eproto[8];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_ShooterProtocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ShooterProtocol_2eproto = nullptr;
 
@@ -150,16 +168,26 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
   PROTOBUF_FIELD_OFFSET(::Shooter::PRotator, _impl_.roll_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PRotator, _impl_.pitch_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PRotator, _impl_.yaw_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PEquipment, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PEquipment, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.health_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.equipmentindex_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PEquipment, _impl_.equipmentindex_),
+  0,
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.wanttofire_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.weaponstate_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.ammocount_),
   0,
   1,
+  2,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Shooter::PClientId, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -167,14 +195,20 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Shooter::PClientId, _impl_.index_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Shooter::PCharacter, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Shooter::PCharacter, _impl_.id_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PCharacter, _impl_.status_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.health_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.equipinfo_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.weaponinfo_),
+  ~0u,
+  2,
+  0,
+  1,
   PROTOBUF_FIELD_OFFSET(::Shooter::PMovement, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PMovement, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -205,19 +239,21 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Shooter::PVector)},
   { 9, -1, -1, sizeof(::Shooter::PRotator)},
-  { 18, 26, -1, sizeof(::Shooter::PPawnStatus)},
-  { 28, -1, -1, sizeof(::Shooter::PClientId)},
-  { 35, -1, -1, sizeof(::Shooter::PCharacter)},
-  { 43, 53, -1, sizeof(::Shooter::PMovement)},
-  { 57, 66, -1, sizeof(::Shooter::PAnimState)},
+  { 18, 25, -1, sizeof(::Shooter::PEquipment)},
+  { 26, 35, -1, sizeof(::Shooter::PWeapon)},
+  { 38, -1, -1, sizeof(::Shooter::PClientId)},
+  { 45, 55, -1, sizeof(::Shooter::PPawnStatus)},
+  { 59, 69, -1, sizeof(::Shooter::PMovement)},
+  { 73, 82, -1, sizeof(::Shooter::PAnimState)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::Shooter::_PVector_default_instance_._instance,
   &::Shooter::_PRotator_default_instance_._instance,
-  &::Shooter::_PPawnStatus_default_instance_._instance,
+  &::Shooter::_PEquipment_default_instance_._instance,
+  &::Shooter::_PWeapon_default_instance_._instance,
   &::Shooter::_PClientId_default_instance_._instance,
-  &::Shooter::_PCharacter_default_instance_._instance,
+  &::Shooter::_PPawnStatus_default_instance_._instance,
   &::Shooter::_PMovement_default_instance_._instance,
   &::Shooter::_PAnimState_default_instance_._instance,
 };
@@ -226,25 +262,31 @@ const char descriptor_table_protodef_ShooterProtocol_2eproto[] PROTOBUF_SECTION_
   "\n\025ShooterProtocol.proto\022\007Shooter\"*\n\007PVec"
   "tor\022\t\n\001X\030\001 \001(\002\022\t\n\001Y\030\002 \001(\002\022\t\n\001Z\030\003 \001(\002\"4\n\010"
   "PRotator\022\014\n\004Roll\030\001 \001(\002\022\r\n\005Pitch\030\002 \001(\002\022\013\n"
-  "\003Yaw\030\003 \001(\002\"]\n\013PPawnStatus\022\023\n\006Health\030\001 \001("
-  "\002H\000\210\001\001\022\033\n\016EquipmentIndex\030\002 \001(\rH\001\210\001\001B\t\n\007_"
-  "HealthB\021\n\017_EquipmentIndex\"\032\n\tPClientId\022\r"
-  "\n\005Index\030\001 \001(\r\"R\n\nPCharacter\022\036\n\002Id\030\001 \001(\0132"
-  "\022.Shooter.PClientId\022$\n\006Status\030\002 \001(\0132\024.Sh"
-  "ooter.PPawnStatus\"\260\001\n\tPMovement\022\036\n\002Id\030\001 "
-  "\001(\0132\022.Shooter.PClientId\022\"\n\003Loc\030\002 \001(\0132\020.S"
-  "hooter.PVectorH\000\210\001\001\022#\n\003Rot\030\003 \001(\0132\021.Shoot"
-  "er.PRotatorH\001\210\001\001\022\"\n\003Vel\030\004 \001(\0132\020.Shooter."
-  "PVectorH\002\210\001\001B\006\n\004_LocB\006\n\004_RotB\006\n\004_Vel\"p\n\n"
-  "PAnimState\022\036\n\002Id\030\001 \001(\0132\022.Shooter.PClient"
-  "Id\022\023\n\006AimYaw\030\002 \001(\002H\000\210\001\001\022\025\n\010AimPitch\030\003 \001("
-  "\002H\001\210\001\001B\t\n\007_AimYawB\013\n\t_AimPitchb\006proto3"
+  "\003Yaw\030\003 \001(\002\"<\n\nPEquipment\022\033\n\016EquipmentInd"
+  "ex\030\001 \001(\rH\000\210\001\001B\021\n\017_EquipmentIndex\"\201\001\n\007PWe"
+  "apon\022\027\n\nWantToFire\030\001 \001(\010H\000\210\001\001\022\030\n\013WeaponS"
+  "tate\030\002 \001(\rH\001\210\001\001\022\026\n\tAmmoCount\030\003 \001(\rH\002\210\001\001B"
+  "\r\n\013_WantToFireB\016\n\014_WeaponStateB\014\n\n_AmmoC"
+  "ount\"\032\n\tPClientId\022\r\n\005Index\030\001 \001(\r\"\302\001\n\013PPa"
+  "wnStatus\022\036\n\002Id\030\001 \001(\0132\022.Shooter.PClientId"
+  "\022\023\n\006Health\030\002 \001(\002H\000\210\001\001\022+\n\tEquipInfo\030\003 \001(\013"
+  "2\023.Shooter.PEquipmentH\001\210\001\001\022)\n\nWeaponInfo"
+  "\030\004 \001(\0132\020.Shooter.PWeaponH\002\210\001\001B\t\n\007_Health"
+  "B\014\n\n_EquipInfoB\r\n\013_WeaponInfo\"\260\001\n\tPMovem"
+  "ent\022\036\n\002Id\030\001 \001(\0132\022.Shooter.PClientId\022\"\n\003L"
+  "oc\030\002 \001(\0132\020.Shooter.PVectorH\000\210\001\001\022#\n\003Rot\030\003"
+  " \001(\0132\021.Shooter.PRotatorH\001\210\001\001\022\"\n\003Vel\030\004 \001("
+  "\0132\020.Shooter.PVectorH\002\210\001\001B\006\n\004_LocB\006\n\004_Rot"
+  "B\006\n\004_Vel\"p\n\nPAnimState\022\036\n\002Id\030\001 \001(\0132\022.Sho"
+  "oter.PClientId\022\023\n\006AimYaw\030\002 \001(\002H\000\210\001\001\022\025\n\010A"
+  "imPitch\030\003 \001(\002H\001\210\001\001B\t\n\007_AimYawB\013\n\t_AimPit"
+  "chb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_ShooterProtocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ShooterProtocol_2eproto = {
-    false, false, 638, descriptor_table_protodef_ShooterProtocol_2eproto,
+    false, false, 850, descriptor_table_protodef_ShooterProtocol_2eproto,
     "ShooterProtocol.proto",
-    &descriptor_table_ShooterProtocol_2eproto_once, nullptr, 0, 7,
+    &descriptor_table_ShooterProtocol_2eproto_once, nullptr, 0, 8,
     schemas, file_default_instances, TableStruct_ShooterProtocol_2eproto::offsets,
     file_level_metadata_ShooterProtocol_2eproto, file_level_enum_descriptors_ShooterProtocol_2eproto,
     file_level_service_descriptors_ShooterProtocol_2eproto,
@@ -801,53 +843,46 @@ void PRotator::InternalSwap(PRotator* other) {
 
 // ===================================================================
 
-class PPawnStatus::_Internal {
+class PEquipment::_Internal {
  public:
-  using HasBits = decltype(std::declval<PPawnStatus>()._impl_._has_bits_);
-  static void set_has_health(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
+  using HasBits = decltype(std::declval<PEquipment>()._impl_._has_bits_);
   static void set_has_equipmentindex(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
+    (*has_bits)[0] |= 1u;
   }
 };
 
-PPawnStatus::PPawnStatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+PEquipment::PEquipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Shooter.PPawnStatus)
+  // @@protoc_insertion_point(arena_constructor:Shooter.PEquipment)
 }
-PPawnStatus::PPawnStatus(const PPawnStatus& from)
+PEquipment::PEquipment(const PEquipment& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  PPawnStatus* const _this = this; (void)_this;
+  PEquipment* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.health_){}
     , decltype(_impl_.equipmentindex_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.health_, &from._impl_.health_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.equipmentindex_) -
-    reinterpret_cast<char*>(&_impl_.health_)) + sizeof(_impl_.equipmentindex_));
-  // @@protoc_insertion_point(copy_constructor:Shooter.PPawnStatus)
+  _this->_impl_.equipmentindex_ = from._impl_.equipmentindex_;
+  // @@protoc_insertion_point(copy_constructor:Shooter.PEquipment)
 }
 
-inline void PPawnStatus::SharedCtor(
+inline void PEquipment::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.health_){0}
     , decltype(_impl_.equipmentindex_){0u}
   };
 }
 
-PPawnStatus::~PPawnStatus() {
-  // @@protoc_insertion_point(destructor:Shooter.PPawnStatus)
+PEquipment::~PEquipment() {
+  // @@protoc_insertion_point(destructor:Shooter.PEquipment)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -855,49 +890,35 @@ PPawnStatus::~PPawnStatus() {
   SharedDtor();
 }
 
-inline void PPawnStatus::SharedDtor() {
+inline void PEquipment::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void PPawnStatus::SetCachedSize(int size) const {
+void PEquipment::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void PPawnStatus::Clear() {
-// @@protoc_insertion_point(message_clear_start:Shooter.PPawnStatus)
+void PEquipment::Clear() {
+// @@protoc_insertion_point(message_clear_start:Shooter.PEquipment)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&_impl_.health_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.equipmentindex_) -
-        reinterpret_cast<char*>(&_impl_.health_)) + sizeof(_impl_.equipmentindex_));
-  }
+  _impl_.equipmentindex_ = 0u;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* PPawnStatus::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* PEquipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional float Health = 1;
+      // optional uint32 EquipmentIndex = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 13)) {
-          _Internal::set_has_health(&has_bits);
-          _impl_.health_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
-        } else
-          goto handle_unusual;
-        continue;
-      // optional uint32 EquipmentIndex = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_equipmentindex(&has_bits);
           _impl_.equipmentindex_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
@@ -928,34 +949,265 @@ failure:
 #undef CHK_
 }
 
-uint8_t* PPawnStatus::_InternalSerialize(
+uint8_t* PEquipment::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PPawnStatus)
+  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PEquipment)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // optional float Health = 1;
-  if (_internal_has_health()) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(1, this->_internal_health(), target);
-  }
-
-  // optional uint32 EquipmentIndex = 2;
+  // optional uint32 EquipmentIndex = 1;
   if (_internal_has_equipmentindex()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_equipmentindex(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_equipmentindex(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PPawnStatus)
+  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PEquipment)
   return target;
 }
 
-size_t PPawnStatus::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Shooter.PPawnStatus)
+size_t PEquipment::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Shooter.PEquipment)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // optional uint32 EquipmentIndex = 1;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_equipmentindex());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PEquipment::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    PEquipment::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PEquipment::GetClassData() const { return &_class_data_; }
+
+
+void PEquipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PEquipment*>(&to_msg);
+  auto& from = static_cast<const PEquipment&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PEquipment)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_equipmentindex()) {
+    _this->_internal_set_equipmentindex(from._internal_equipmentindex());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PEquipment::CopyFrom(const PEquipment& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PEquipment)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PEquipment::IsInitialized() const {
+  return true;
+}
+
+void PEquipment::InternalSwap(PEquipment* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  swap(_impl_.equipmentindex_, other->_impl_.equipmentindex_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PEquipment::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
+      file_level_metadata_ShooterProtocol_2eproto[2]);
+}
+
+// ===================================================================
+
+class PWeapon::_Internal {
+ public:
+  using HasBits = decltype(std::declval<PWeapon>()._impl_._has_bits_);
+  static void set_has_wanttofire(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_weaponstate(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_ammocount(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+};
+
+PWeapon::PWeapon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Shooter.PWeapon)
+}
+PWeapon::PWeapon(const PWeapon& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  PWeapon* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.wanttofire_){}
+    , decltype(_impl_.weaponstate_){}
+    , decltype(_impl_.ammocount_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.wanttofire_, &from._impl_.wanttofire_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ammocount_) -
+    reinterpret_cast<char*>(&_impl_.wanttofire_)) + sizeof(_impl_.ammocount_));
+  // @@protoc_insertion_point(copy_constructor:Shooter.PWeapon)
+}
+
+inline void PWeapon::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.wanttofire_){false}
+    , decltype(_impl_.weaponstate_){0u}
+    , decltype(_impl_.ammocount_){0u}
+  };
+}
+
+PWeapon::~PWeapon() {
+  // @@protoc_insertion_point(destructor:Shooter.PWeapon)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void PWeapon::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void PWeapon::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void PWeapon::Clear() {
+// @@protoc_insertion_point(message_clear_start:Shooter.PWeapon)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    ::memset(&_impl_.wanttofire_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.ammocount_) -
+        reinterpret_cast<char*>(&_impl_.wanttofire_)) + sizeof(_impl_.ammocount_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PWeapon::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional bool WantToFire = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_wanttofire(&has_bits);
+          _impl_.wanttofire_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 WeaponState = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _Internal::set_has_weaponstate(&has_bits);
+          _impl_.weaponstate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 AmmoCount = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _Internal::set_has_ammocount(&has_bits);
+          _impl_.ammocount_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* PWeapon::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PWeapon)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional bool WantToFire = 1;
+  if (_internal_has_wanttofire()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_wanttofire(), target);
+  }
+
+  // optional uint32 WeaponState = 2;
+  if (_internal_has_weaponstate()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_weaponstate(), target);
+  }
+
+  // optional uint32 AmmoCount = 3;
+  if (_internal_has_ammocount()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_ammocount(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PWeapon)
+  return target;
+}
+
+size_t PWeapon::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Shooter.PWeapon)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -963,76 +1215,84 @@ size_t PPawnStatus::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional float Health = 1;
+  if (cached_has_bits & 0x00000007u) {
+    // optional bool WantToFire = 1;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 + 4;
+      total_size += 1 + 1;
     }
 
-    // optional uint32 EquipmentIndex = 2;
+    // optional uint32 WeaponState = 2;
     if (cached_has_bits & 0x00000002u) {
-      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_equipmentindex());
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_weaponstate());
+    }
+
+    // optional uint32 AmmoCount = 3;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_ammocount());
     }
 
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PPawnStatus::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PWeapon::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    PPawnStatus::MergeImpl
+    PWeapon::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PPawnStatus::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PWeapon::GetClassData() const { return &_class_data_; }
 
 
-void PPawnStatus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<PPawnStatus*>(&to_msg);
-  auto& from = static_cast<const PPawnStatus&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PPawnStatus)
+void PWeapon::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PWeapon*>(&to_msg);
+  auto& from = static_cast<const PWeapon&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PWeapon)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      _this->_impl_.health_ = from._impl_.health_;
+      _this->_impl_.wanttofire_ = from._impl_.wanttofire_;
     }
     if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.equipmentindex_ = from._impl_.equipmentindex_;
+      _this->_impl_.weaponstate_ = from._impl_.weaponstate_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.ammocount_ = from._impl_.ammocount_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PPawnStatus::CopyFrom(const PPawnStatus& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PPawnStatus)
+void PWeapon::CopyFrom(const PWeapon& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PWeapon)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool PPawnStatus::IsInitialized() const {
+bool PWeapon::IsInitialized() const {
   return true;
 }
 
-void PPawnStatus::InternalSwap(PPawnStatus* other) {
+void PWeapon::InternalSwap(PWeapon* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.equipmentindex_)
-      + sizeof(PPawnStatus::_impl_.equipmentindex_)
-      - PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.health_)>(
-          reinterpret_cast<char*>(&_impl_.health_),
-          reinterpret_cast<char*>(&other->_impl_.health_));
+      PROTOBUF_FIELD_OFFSET(PWeapon, _impl_.ammocount_)
+      + sizeof(PWeapon::_impl_.ammocount_)
+      - PROTOBUF_FIELD_OFFSET(PWeapon, _impl_.wanttofire_)>(
+          reinterpret_cast<char*>(&_impl_.wanttofire_),
+          reinterpret_cast<char*>(&other->_impl_.wanttofire_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata PPawnStatus::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata PWeapon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[2]);
+      file_level_metadata_ShooterProtocol_2eproto[3]);
 }
 
 // ===================================================================
@@ -1210,62 +1470,87 @@ void PClientId::InternalSwap(PClientId* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PClientId::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[3]);
+      file_level_metadata_ShooterProtocol_2eproto[4]);
 }
 
 // ===================================================================
 
-class PCharacter::_Internal {
+class PPawnStatus::_Internal {
  public:
-  static const ::Shooter::PClientId& id(const PCharacter* msg);
-  static const ::Shooter::PPawnStatus& status(const PCharacter* msg);
+  using HasBits = decltype(std::declval<PPawnStatus>()._impl_._has_bits_);
+  static const ::Shooter::PClientId& id(const PPawnStatus* msg);
+  static void set_has_health(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static const ::Shooter::PEquipment& equipinfo(const PPawnStatus* msg);
+  static void set_has_equipinfo(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static const ::Shooter::PWeapon& weaponinfo(const PPawnStatus* msg);
+  static void set_has_weaponinfo(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
 };
 
 const ::Shooter::PClientId&
-PCharacter::_Internal::id(const PCharacter* msg) {
+PPawnStatus::_Internal::id(const PPawnStatus* msg) {
   return *msg->_impl_.id_;
 }
-const ::Shooter::PPawnStatus&
-PCharacter::_Internal::status(const PCharacter* msg) {
-  return *msg->_impl_.status_;
+const ::Shooter::PEquipment&
+PPawnStatus::_Internal::equipinfo(const PPawnStatus* msg) {
+  return *msg->_impl_.equipinfo_;
 }
-PCharacter::PCharacter(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+const ::Shooter::PWeapon&
+PPawnStatus::_Internal::weaponinfo(const PPawnStatus* msg) {
+  return *msg->_impl_.weaponinfo_;
+}
+PPawnStatus::PPawnStatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Shooter.PCharacter)
+  // @@protoc_insertion_point(arena_constructor:Shooter.PPawnStatus)
 }
-PCharacter::PCharacter(const PCharacter& from)
+PPawnStatus::PPawnStatus(const PPawnStatus& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  PCharacter* const _this = this; (void)_this;
+  PPawnStatus* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.id_){nullptr}
-    , decltype(_impl_.status_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.id_){nullptr}
+    , decltype(_impl_.equipinfo_){nullptr}
+    , decltype(_impl_.weaponinfo_){nullptr}
+    , decltype(_impl_.health_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_id()) {
     _this->_impl_.id_ = new ::Shooter::PClientId(*from._impl_.id_);
   }
-  if (from._internal_has_status()) {
-    _this->_impl_.status_ = new ::Shooter::PPawnStatus(*from._impl_.status_);
+  if (from._internal_has_equipinfo()) {
+    _this->_impl_.equipinfo_ = new ::Shooter::PEquipment(*from._impl_.equipinfo_);
   }
-  // @@protoc_insertion_point(copy_constructor:Shooter.PCharacter)
+  if (from._internal_has_weaponinfo()) {
+    _this->_impl_.weaponinfo_ = new ::Shooter::PWeapon(*from._impl_.weaponinfo_);
+  }
+  _this->_impl_.health_ = from._impl_.health_;
+  // @@protoc_insertion_point(copy_constructor:Shooter.PPawnStatus)
 }
 
-inline void PCharacter::SharedCtor(
+inline void PPawnStatus::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.id_){nullptr}
-    , decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.id_){nullptr}
+    , decltype(_impl_.equipinfo_){nullptr}
+    , decltype(_impl_.weaponinfo_){nullptr}
+    , decltype(_impl_.health_){0}
   };
 }
 
-PCharacter::~PCharacter() {
-  // @@protoc_insertion_point(destructor:Shooter.PCharacter)
+PPawnStatus::~PPawnStatus() {
+  // @@protoc_insertion_point(destructor:Shooter.PPawnStatus)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1273,18 +1558,19 @@ PCharacter::~PCharacter() {
   SharedDtor();
 }
 
-inline void PCharacter::SharedDtor() {
+inline void PPawnStatus::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.id_;
-  if (this != internal_default_instance()) delete _impl_.status_;
+  if (this != internal_default_instance()) delete _impl_.equipinfo_;
+  if (this != internal_default_instance()) delete _impl_.weaponinfo_;
 }
 
-void PCharacter::SetCachedSize(int size) const {
+void PPawnStatus::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void PCharacter::Clear() {
-// @@protoc_insertion_point(message_clear_start:Shooter.PCharacter)
+void PPawnStatus::Clear() {
+// @@protoc_insertion_point(message_clear_start:Shooter.PPawnStatus)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1293,15 +1579,25 @@ void PCharacter::Clear() {
     delete _impl_.id_;
   }
   _impl_.id_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
-    delete _impl_.status_;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(_impl_.equipinfo_ != nullptr);
+      _impl_.equipinfo_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(_impl_.weaponinfo_ != nullptr);
+      _impl_.weaponinfo_->Clear();
+    }
   }
-  _impl_.status_ = nullptr;
+  _impl_.health_ = 0;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* PCharacter::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* PPawnStatus::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -1314,10 +1610,27 @@ const char* PCharacter::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // .Shooter.PPawnStatus Status = 2;
+      // optional float Health = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _Internal::set_has_health(&has_bits);
+          _impl_.health_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .Shooter.PEquipment EquipInfo = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_equipinfo(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .Shooter.PWeapon WeaponInfo = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_weaponinfo(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1338,6 +1651,7 @@ const char* PCharacter::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1345,9 +1659,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* PCharacter::_InternalSerialize(
+uint8_t* PPawnStatus::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PCharacter)
+  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PPawnStatus)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1358,23 +1672,36 @@ uint8_t* PCharacter::_InternalSerialize(
         _Internal::id(this).GetCachedSize(), target, stream);
   }
 
-  // .Shooter.PPawnStatus Status = 2;
-  if (this->_internal_has_status()) {
+  // optional float Health = 2;
+  if (_internal_has_health()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_health(), target);
+  }
+
+  // optional .Shooter.PEquipment EquipInfo = 3;
+  if (_internal_has_equipinfo()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::status(this),
-        _Internal::status(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(3, _Internal::equipinfo(this),
+        _Internal::equipinfo(this).GetCachedSize(), target, stream);
+  }
+
+  // optional .Shooter.PWeapon WeaponInfo = 4;
+  if (_internal_has_weaponinfo()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::weaponinfo(this),
+        _Internal::weaponinfo(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PCharacter)
+  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PPawnStatus)
   return target;
 }
 
-size_t PCharacter::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Shooter.PCharacter)
+size_t PPawnStatus::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Shooter.PPawnStatus)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -1388,27 +1715,42 @@ size_t PCharacter::ByteSizeLong() const {
         *_impl_.id_);
   }
 
-  // .Shooter.PPawnStatus Status = 2;
-  if (this->_internal_has_status()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.status_);
-  }
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    // optional .Shooter.PEquipment EquipInfo = 3;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.equipinfo_);
+    }
 
+    // optional .Shooter.PWeapon WeaponInfo = 4;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.weaponinfo_);
+    }
+
+    // optional float Health = 2;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PCharacter::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PPawnStatus::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    PCharacter::MergeImpl
+    PPawnStatus::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PCharacter::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PPawnStatus::GetClassData() const { return &_class_data_; }
 
 
-void PCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<PCharacter*>(&to_msg);
-  auto& from = static_cast<const PCharacter&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PCharacter)
+void PPawnStatus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PPawnStatus*>(&to_msg);
+  auto& from = static_cast<const PPawnStatus&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PPawnStatus)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1417,39 +1759,51 @@ void PCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
     _this->_internal_mutable_id()->::Shooter::PClientId::MergeFrom(
         from._internal_id());
   }
-  if (from._internal_has_status()) {
-    _this->_internal_mutable_status()->::Shooter::PPawnStatus::MergeFrom(
-        from._internal_status());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_equipinfo()->::Shooter::PEquipment::MergeFrom(
+          from._internal_equipinfo());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_mutable_weaponinfo()->::Shooter::PWeapon::MergeFrom(
+          from._internal_weaponinfo());
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.health_ = from._impl_.health_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PCharacter::CopyFrom(const PCharacter& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PCharacter)
+void PPawnStatus::CopyFrom(const PPawnStatus& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PPawnStatus)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool PCharacter::IsInitialized() const {
+bool PPawnStatus::IsInitialized() const {
   return true;
 }
 
-void PCharacter::InternalSwap(PCharacter* other) {
+void PPawnStatus::InternalSwap(PPawnStatus* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PCharacter, _impl_.status_)
-      + sizeof(PCharacter::_impl_.status_)
-      - PROTOBUF_FIELD_OFFSET(PCharacter, _impl_.id_)>(
+      PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.health_)
+      + sizeof(PPawnStatus::_impl_.health_)
+      - PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata PCharacter::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata PPawnStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[4]);
+      file_level_metadata_ShooterProtocol_2eproto[5]);
 }
 
 // ===================================================================
@@ -1795,7 +2149,7 @@ void PMovement::InternalSwap(PMovement* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PMovement::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[5]);
+      file_level_metadata_ShooterProtocol_2eproto[6]);
 }
 
 // ===================================================================
@@ -2072,7 +2426,7 @@ void PAnimState::InternalSwap(PAnimState* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PAnimState::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[6]);
+      file_level_metadata_ShooterProtocol_2eproto[7]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2086,17 +2440,21 @@ template<> PROTOBUF_NOINLINE ::Shooter::PRotator*
 Arena::CreateMaybeMessage< ::Shooter::PRotator >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Shooter::PRotator >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Shooter::PPawnStatus*
-Arena::CreateMaybeMessage< ::Shooter::PPawnStatus >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Shooter::PPawnStatus >(arena);
+template<> PROTOBUF_NOINLINE ::Shooter::PEquipment*
+Arena::CreateMaybeMessage< ::Shooter::PEquipment >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Shooter::PEquipment >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Shooter::PWeapon*
+Arena::CreateMaybeMessage< ::Shooter::PWeapon >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Shooter::PWeapon >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Shooter::PClientId*
 Arena::CreateMaybeMessage< ::Shooter::PClientId >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Shooter::PClientId >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Shooter::PCharacter*
-Arena::CreateMaybeMessage< ::Shooter::PCharacter >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Shooter::PCharacter >(arena);
+template<> PROTOBUF_NOINLINE ::Shooter::PPawnStatus*
+Arena::CreateMaybeMessage< ::Shooter::PPawnStatus >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Shooter::PPawnStatus >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Shooter::PMovement*
 Arena::CreateMaybeMessage< ::Shooter::PMovement >(Arena* arena) {

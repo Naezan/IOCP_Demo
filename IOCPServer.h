@@ -77,7 +77,7 @@ private:
 	void DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 DataSize);
 
 	void RecvLoginPacket(void* Data, UINT16 DataSize);
-	void RecvCharacterPacket(void* Data, UINT16 DataSize);
+	void RecvPawnStatusPacket(void* Data, UINT16 DataSize);
 	void RecvMovementPacket(void* Data, UINT16 DataSize);
 	void RecvAnimPacket(void* Data, UINT16 DataSize);
 	void RecvWeaponPacket(void* Data, UINT16 DataSize);

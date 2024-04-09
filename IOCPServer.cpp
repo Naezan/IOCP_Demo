@@ -107,7 +107,7 @@ bool CIOCPServer::InitSocket(int SocketPort)
 bool CIOCPServer::InitServer()
 {
 	PacketFuncMap.emplace(EPacketType::Login_S, std::bind(&CIOCPServer::RecvLoginPacket, this, std::placeholders::_1, std::placeholders::_2));
-	PacketFuncMap.emplace(EPacketType::PawnStatus_S, std::bind(&CIOCPServer::RecvCharacterPacket, this, std::placeholders::_1, std::placeholders::_2));
+	PacketFuncMap.emplace(EPacketType::PawnStatus_S, std::bind(&CIOCPServer::RecvPawnStatusPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::Movement_S, std::bind(&CIOCPServer::RecvMovementPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::AnimState_S, std::bind(&CIOCPServer::RecvAnimPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::WeaponState_S, std::bind(&CIOCPServer::RecvWeaponPacket, this, std::placeholders::_1, std::placeholders::_2));
@@ -504,18 +504,50 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 	IOSendBCPacketQue.push_back(LoginBuffer);
 }
 
-void CIOCPServer::RecvCharacterPacket(void* Data, UINT16 DataSize)
+void CIOCPServer::RecvPawnStatusPacket(void* Data, UINT16 DataSize)
 {
+	lock_guard<mutex> Guard(SendQueLock);
+
+	Shooter::PPawnStatus PawnStatusPacket;
+	PawnStatusPacket.ParseFromArray(Data, DataSize);
+
+	PacketBuffer PawnStatusBuffer = SerializePacket<Shooter::PPawnStatus>(PawnStatusPacket, PawnStatus_C, PawnStatusPacket.mutable_id()->index());
+	// 패킷 브로드캐스팅
+	IOSendBCPacketQue.push_back(PawnStatusBuffer);
 }
 
 void CIOCPServer::RecvMovementPacket(void* Data, UINT16 DataSize)
 {
+	lock_guard<mutex> Guard(SendQueLock);
+
+	Shooter::PMovement MovePacket;
+	MovePacket.ParseFromArray(Data, DataSize);
+
+	PacketBuffer MoveBuffer = SerializePacket<Shooter::PMovement>(MovePacket, Movement_C, MovePacket.mutable_id()->index());
+	// 패킷 브로드캐스팅
+	IOSendBCPacketQue.push_back(MoveBuffer);
 }
 
 void CIOCPServer::RecvAnimPacket(void* Data, UINT16 DataSize)
 {
+	lock_guard<mutex> Guard(SendQueLock);
+
+	Shooter::PAnimState AnimPacket;
+	AnimPacket.ParseFromArray(Data, DataSize);
+
+	PacketBuffer AnimBuffer = SerializePacket<Shooter::PAnimState>(AnimPacket, AnimState_C, AnimPacket.mutable_id()->index());
+	// 패킷 브로드캐스팅
+	IOSendBCPacketQue.push_back(AnimBuffer);
 }
 
 void CIOCPServer::RecvWeaponPacket(void* Data, UINT16 DataSize)
 {
+	lock_guard<mutex> Guard(SendQueLock);
+
+	Shooter::PPawnStatus WeaponPacket;
+	WeaponPacket.ParseFromArray(Data, DataSize);
+
+	PacketBuffer WeaponBuffer = SerializePacket<Shooter::PPawnStatus>(WeaponPacket, WeaponState_C, WeaponPacket.mutable_id()->index());
+	// 패킷 브로드캐스팅
+	IOSendBCPacketQue.push_back(WeaponBuffer);
 }
