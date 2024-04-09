@@ -39,6 +39,7 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	// 데이터가 없거나 패킷을 송신중일 때는 대기
 	if (DataLen <= 0 || IsSending)
 	{
+		printf_s("데이터 크기 : %d, 보내는 중인 여부 : %d\n", DataLen, IsSending);
 		return false;
 	}
 
@@ -62,6 +63,10 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 		(LPWSAOVERLAPPED)&(SendPacket->WSAOverlapped),
 		NULL);
 
+	if (Result == SOCKET_ERROR)
+	{
+		printf_s("에러코드 : %d\n", WSAGetLastError());
+	}
 	//SOCKET_ERROR이면 서버는 클라이언트의 데이터 송신에 실패함
 	if (Result == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING))
 	{

@@ -27,7 +27,7 @@ public:
 
 	void CreateClient(const UINT32 MaxClientCount);
 	bool SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize);
-	bool SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize);
+	bool SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize, bool IsReliable);
 	void DisconnectSocket(CClientContext* ClientContext, bool bIsForce = false);
 
 	CClientContext* GetEmptyClientContext();

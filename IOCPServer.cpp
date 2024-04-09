@@ -232,17 +232,23 @@ bool CIOCPServer::SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 Packet
 	return false;
 }
 
-bool CIOCPServer::SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize)
+bool CIOCPServer::SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize, bool IsReliable)
 {
-	for (const auto& Client : ClientContexts)
+	for (int i = 0; i < ClientContexts.size();)
 	{
-		if (Client->IsConnected())
+		if (ClientContexts[i]->IsConnected())
 		{
-			if (!Client->SendPendingPacket(PacketData, PacketSize))
+			if (!ClientContexts[i]->SendPendingPacket(PacketData, PacketSize))
 			{
-				return false;
+				printf_s("[전송 실패] 전송 실패한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
+				if (IsReliable)
+				{
+					continue;
+				}
 			}
+			printf_s("[전송 성공] 전송 성공한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
 		}
+		++i;
 	}
 
 	return true;
@@ -379,17 +385,18 @@ void CIOCPServer::WorkThread()
 		if (EPacketOperation::RECV == LpOverlappedEx->Operation)
 		{
 			PacketHeader* Header = (PacketHeader*)ClientContext->GetRecvData();
-			cout << "[수신] 수신된 데이터 크기 : " << Header->PacketSize << endl;
+			printf_s("[수신] 클라이언트 : %d \t 수신된 데이터 크기 : %d\n", ClientContext->GetIndex(), Header->PacketSize);
 
 			DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
 		}
 		else if (EPacketOperation::SEND == LpOverlappedEx->Operation)
 		{
-			cout << "[송신 완료] 데이터가 성공적으로 송신됨" << endl;
+			printf_s("[송신 완료] 클라이언트 : %d \t 데이터가 성공적으로 송신됨\n", ClientContext->GetIndex());
 			ClientContext->CompleteSendPacket();
 		}
 
 		//OnProcessed(ClientContext->GetIndex(), TransferredByte);
+		ClientContext->ReceivePacket();
 	}
 }
 
@@ -447,7 +454,7 @@ void CIOCPServer::SendThread()
 			// 여기서 클라이언트에게 비동기적으로 패킷 전송
 			if (SendPacket(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize()))
 			{
-				printf_s("[전송] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
+				printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
 			}
 		}
 		else
@@ -466,9 +473,9 @@ void CIOCPServer::SendBroadCastThread()
 		if (PacketData.GetSize() > 0)
 		{
 			// 여기서 클라이언트에게 비동기적으로 패킷 전송
-			if (SendPacketBroadCast(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize()))
+			if (SendPacketBroadCast(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize(), PacketData.bIsReliable))
 			{
-				printf_s("[전송] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
+				printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
 			}
 		}
 		else
@@ -500,7 +507,8 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 	LoginPacket.ParseFromArray(Data, DataSize);
 
 	PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.mutable_id()->index());
-	// 패킷 브로드캐스팅
+	LoginBuffer.bIsReliable = true;
+	// 스폰 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(LoginBuffer);
 }
 
@@ -512,7 +520,7 @@ void CIOCPServer::RecvPawnStatusPacket(void* Data, UINT16 DataSize)
 	PawnStatusPacket.ParseFromArray(Data, DataSize);
 
 	PacketBuffer PawnStatusBuffer = SerializePacket<Shooter::PPawnStatus>(PawnStatusPacket, PawnStatus_C, PawnStatusPacket.mutable_id()->index());
-	// 패킷 브로드캐스팅
+	// 플레이어 전체상태 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(PawnStatusBuffer);
 }
 
@@ -524,7 +532,7 @@ void CIOCPServer::RecvMovementPacket(void* Data, UINT16 DataSize)
 	MovePacket.ParseFromArray(Data, DataSize);
 
 	PacketBuffer MoveBuffer = SerializePacket<Shooter::PMovement>(MovePacket, Movement_C, MovePacket.mutable_id()->index());
-	// 패킷 브로드캐스팅
+	// 움직임 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(MoveBuffer);
 }
 

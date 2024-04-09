@@ -16,6 +16,9 @@ public:
 	char* GetBuffer() const { return Buffer; }
 
 	void SetIndex(UINT16 Index) { PacketIndex = Index; }
+
+public:
+	bool bIsReliable = false;
 private:
 	char* Buffer;
 	UINT16 BufferPos = 0;
