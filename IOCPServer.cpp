@@ -552,10 +552,10 @@ void CIOCPServer::RecvWeaponPacket(void* Data, UINT16 DataSize)
 {
 	lock_guard<mutex> Guard(SendQueLock);
 
-	Shooter::PPawnStatus WeaponPacket;
+	Shooter::PWeapon WeaponPacket;
 	WeaponPacket.ParseFromArray(Data, DataSize);
 
-	PacketBuffer WeaponBuffer = SerializePacket<Shooter::PPawnStatus>(WeaponPacket, WeaponState_C, WeaponPacket.mutable_id()->index());
+	PacketBuffer WeaponBuffer = SerializePacket<Shooter::PWeapon>(WeaponPacket, WeaponState_C, WeaponPacket.mutable_id()->index());
 	// 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(WeaponBuffer);
 }

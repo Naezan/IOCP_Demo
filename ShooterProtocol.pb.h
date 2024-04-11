@@ -51,9 +51,6 @@ extern PAnimStateDefaultTypeInternal _PAnimState_default_instance_;
 class PClientId;
 struct PClientIdDefaultTypeInternal;
 extern PClientIdDefaultTypeInternal _PClientId_default_instance_;
-class PEquipment;
-struct PEquipmentDefaultTypeInternal;
-extern PEquipmentDefaultTypeInternal _PEquipment_default_instance_;
 class PMovement;
 struct PMovementDefaultTypeInternal;
 extern PMovementDefaultTypeInternal _PMovement_default_instance_;
@@ -73,7 +70,6 @@ extern PWeaponDefaultTypeInternal _PWeapon_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Shooter::PAnimState* Arena::CreateMaybeMessage<::Shooter::PAnimState>(Arena*);
 template<> ::Shooter::PClientId* Arena::CreateMaybeMessage<::Shooter::PClientId>(Arena*);
-template<> ::Shooter::PEquipment* Arena::CreateMaybeMessage<::Shooter::PEquipment>(Arena*);
 template<> ::Shooter::PMovement* Arena::CreateMaybeMessage<::Shooter::PMovement>(Arena*);
 template<> ::Shooter::PPawnStatus* Arena::CreateMaybeMessage<::Shooter::PPawnStatus>(Arena*);
 template<> ::Shooter::PRotator* Arena::CreateMaybeMessage<::Shooter::PRotator>(Arena*);
@@ -424,159 +420,6 @@ class PRotator final :
 };
 // -------------------------------------------------------------------
 
-class PEquipment final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Shooter.PEquipment) */ {
- public:
-  inline PEquipment() : PEquipment(nullptr) {}
-  ~PEquipment() override;
-  explicit PROTOBUF_CONSTEXPR PEquipment(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PEquipment(const PEquipment& from);
-  PEquipment(PEquipment&& from) noexcept
-    : PEquipment() {
-    *this = ::std::move(from);
-  }
-
-  inline PEquipment& operator=(const PEquipment& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PEquipment& operator=(PEquipment&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PEquipment& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PEquipment* internal_default_instance() {
-    return reinterpret_cast<const PEquipment*>(
-               &_PEquipment_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(PEquipment& a, PEquipment& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PEquipment* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PEquipment* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PEquipment* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PEquipment>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PEquipment& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PEquipment& from) {
-    PEquipment::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PEquipment* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Shooter.PEquipment";
-  }
-  protected:
-  explicit PEquipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kEquipmentIndexFieldNumber = 1,
-  };
-  // optional uint32 EquipmentIndex = 1;
-  bool has_equipmentindex() const;
-  private:
-  bool _internal_has_equipmentindex() const;
-  public:
-  void clear_equipmentindex();
-  uint32_t equipmentindex() const;
-  void set_equipmentindex(uint32_t value);
-  private:
-  uint32_t _internal_equipmentindex() const;
-  void _internal_set_equipmentindex(uint32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:Shooter.PEquipment)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    uint32_t equipmentindex_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ShooterProtocol_2eproto;
-};
-// -------------------------------------------------------------------
-
 class PWeapon final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Shooter.PWeapon) */ {
  public:
@@ -625,7 +468,7 @@ class PWeapon final :
                &_PWeapon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    2;
 
   friend void swap(PWeapon& a, PWeapon& b) {
     a.Swap(&b);
@@ -698,47 +541,94 @@ class PWeapon final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kWantToFireFieldNumber = 1,
-    kWeaponStateFieldNumber = 2,
-    kAmmoCountFieldNumber = 3,
+    kIdFieldNumber = 1,
+    kStartFireFieldNumber = 2,
+    kStopFireFieldNumber = 3,
+    kChangeNextWeaponFieldNumber = 4,
+    kChangePrevWeaponFieldNumber = 5,
+    kStartReloadFieldNumber = 6,
   };
-  // optional bool WantToFire = 1;
-  bool has_wanttofire() const;
+  // .Shooter.PClientId Id = 1;
+  bool has_id() const;
   private:
-  bool _internal_has_wanttofire() const;
+  bool _internal_has_id() const;
   public:
-  void clear_wanttofire();
-  bool wanttofire() const;
-  void set_wanttofire(bool value);
+  void clear_id();
+  const ::Shooter::PClientId& id() const;
+  PROTOBUF_NODISCARD ::Shooter::PClientId* release_id();
+  ::Shooter::PClientId* mutable_id();
+  void set_allocated_id(::Shooter::PClientId* id);
   private:
-  bool _internal_wanttofire() const;
-  void _internal_set_wanttofire(bool value);
+  const ::Shooter::PClientId& _internal_id() const;
+  ::Shooter::PClientId* _internal_mutable_id();
+  public:
+  void unsafe_arena_set_allocated_id(
+      ::Shooter::PClientId* id);
+  ::Shooter::PClientId* unsafe_arena_release_id();
+
+  // optional bool StartFire = 2;
+  bool has_startfire() const;
+  private:
+  bool _internal_has_startfire() const;
+  public:
+  void clear_startfire();
+  bool startfire() const;
+  void set_startfire(bool value);
+  private:
+  bool _internal_startfire() const;
+  void _internal_set_startfire(bool value);
   public:
 
-  // optional uint32 WeaponState = 2;
-  bool has_weaponstate() const;
+  // optional bool StopFire = 3;
+  bool has_stopfire() const;
   private:
-  bool _internal_has_weaponstate() const;
+  bool _internal_has_stopfire() const;
   public:
-  void clear_weaponstate();
-  uint32_t weaponstate() const;
-  void set_weaponstate(uint32_t value);
+  void clear_stopfire();
+  bool stopfire() const;
+  void set_stopfire(bool value);
   private:
-  uint32_t _internal_weaponstate() const;
-  void _internal_set_weaponstate(uint32_t value);
+  bool _internal_stopfire() const;
+  void _internal_set_stopfire(bool value);
   public:
 
-  // optional uint32 AmmoCount = 3;
-  bool has_ammocount() const;
+  // optional bool ChangeNextWeapon = 4;
+  bool has_changenextweapon() const;
   private:
-  bool _internal_has_ammocount() const;
+  bool _internal_has_changenextweapon() const;
   public:
-  void clear_ammocount();
-  uint32_t ammocount() const;
-  void set_ammocount(uint32_t value);
+  void clear_changenextweapon();
+  bool changenextweapon() const;
+  void set_changenextweapon(bool value);
   private:
-  uint32_t _internal_ammocount() const;
-  void _internal_set_ammocount(uint32_t value);
+  bool _internal_changenextweapon() const;
+  void _internal_set_changenextweapon(bool value);
+  public:
+
+  // optional bool ChangePrevWeapon = 5;
+  bool has_changeprevweapon() const;
+  private:
+  bool _internal_has_changeprevweapon() const;
+  public:
+  void clear_changeprevweapon();
+  bool changeprevweapon() const;
+  void set_changeprevweapon(bool value);
+  private:
+  bool _internal_changeprevweapon() const;
+  void _internal_set_changeprevweapon(bool value);
+  public:
+
+  // optional bool StartReload = 6;
+  bool has_startreload() const;
+  private:
+  bool _internal_has_startreload() const;
+  public:
+  void clear_startreload();
+  bool startreload() const;
+  void set_startreload(bool value);
+  private:
+  bool _internal_startreload() const;
+  void _internal_set_startreload(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:Shooter.PWeapon)
@@ -751,9 +641,12 @@ class PWeapon final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    bool wanttofire_;
-    uint32_t weaponstate_;
-    uint32_t ammocount_;
+    ::Shooter::PClientId* id_;
+    bool startfire_;
+    bool stopfire_;
+    bool changenextweapon_;
+    bool changeprevweapon_;
+    bool startreload_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ShooterProtocol_2eproto;
@@ -808,7 +701,7 @@ class PClientId final :
                &_PClientId_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(PClientId& a, PClientId& b) {
     a.Swap(&b);
@@ -956,7 +849,7 @@ class PPawnStatus final :
                &_PPawnStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(PPawnStatus& a, PPawnStatus& b) {
     a.Swap(&b);
@@ -1030,9 +923,8 @@ class PPawnStatus final :
 
   enum : int {
     kIdFieldNumber = 1,
-    kEquipInfoFieldNumber = 3,
-    kWeaponInfoFieldNumber = 4,
-    kHealthFieldNumber = 2,
+    kWantToRunFieldNumber = 2,
+    kHealthFieldNumber = 3,
   };
   // .Shooter.PClientId Id = 1;
   bool has_id() const;
@@ -1052,43 +944,20 @@ class PPawnStatus final :
       ::Shooter::PClientId* id);
   ::Shooter::PClientId* unsafe_arena_release_id();
 
-  // optional .Shooter.PEquipment EquipInfo = 3;
-  bool has_equipinfo() const;
+  // optional bool WantToRun = 2;
+  bool has_wanttorun() const;
   private:
-  bool _internal_has_equipinfo() const;
+  bool _internal_has_wanttorun() const;
   public:
-  void clear_equipinfo();
-  const ::Shooter::PEquipment& equipinfo() const;
-  PROTOBUF_NODISCARD ::Shooter::PEquipment* release_equipinfo();
-  ::Shooter::PEquipment* mutable_equipinfo();
-  void set_allocated_equipinfo(::Shooter::PEquipment* equipinfo);
+  void clear_wanttorun();
+  bool wanttorun() const;
+  void set_wanttorun(bool value);
   private:
-  const ::Shooter::PEquipment& _internal_equipinfo() const;
-  ::Shooter::PEquipment* _internal_mutable_equipinfo();
+  bool _internal_wanttorun() const;
+  void _internal_set_wanttorun(bool value);
   public:
-  void unsafe_arena_set_allocated_equipinfo(
-      ::Shooter::PEquipment* equipinfo);
-  ::Shooter::PEquipment* unsafe_arena_release_equipinfo();
 
-  // optional .Shooter.PWeapon WeaponInfo = 4;
-  bool has_weaponinfo() const;
-  private:
-  bool _internal_has_weaponinfo() const;
-  public:
-  void clear_weaponinfo();
-  const ::Shooter::PWeapon& weaponinfo() const;
-  PROTOBUF_NODISCARD ::Shooter::PWeapon* release_weaponinfo();
-  ::Shooter::PWeapon* mutable_weaponinfo();
-  void set_allocated_weaponinfo(::Shooter::PWeapon* weaponinfo);
-  private:
-  const ::Shooter::PWeapon& _internal_weaponinfo() const;
-  ::Shooter::PWeapon* _internal_mutable_weaponinfo();
-  public:
-  void unsafe_arena_set_allocated_weaponinfo(
-      ::Shooter::PWeapon* weaponinfo);
-  ::Shooter::PWeapon* unsafe_arena_release_weaponinfo();
-
-  // optional float Health = 2;
+  // optional float Health = 3;
   bool has_health() const;
   private:
   bool _internal_has_health() const;
@@ -1112,8 +981,7 @@ class PPawnStatus final :
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::Shooter::PClientId* id_;
-    ::Shooter::PEquipment* equipinfo_;
-    ::Shooter::PWeapon* weaponinfo_;
+    bool wanttorun_;
     float health_;
   };
   union { Impl_ _impl_; };
@@ -1169,7 +1037,7 @@ class PMovement final :
                &_PMovement_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    5;
 
   friend void swap(PMovement& a, PMovement& b) {
     a.Swap(&b);
@@ -1387,7 +1255,7 @@ class PAnimState final :
                &_PAnimState_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    6;
 
   friend void swap(PAnimState& a, PAnimState& b) {
     a.Swap(&b);
@@ -1662,122 +1530,236 @@ inline void PRotator::set_yaw(float value) {
 
 // -------------------------------------------------------------------
 
-// PEquipment
-
-// optional uint32 EquipmentIndex = 1;
-inline bool PEquipment::_internal_has_equipmentindex() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool PEquipment::has_equipmentindex() const {
-  return _internal_has_equipmentindex();
-}
-inline void PEquipment::clear_equipmentindex() {
-  _impl_.equipmentindex_ = 0u;
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline uint32_t PEquipment::_internal_equipmentindex() const {
-  return _impl_.equipmentindex_;
-}
-inline uint32_t PEquipment::equipmentindex() const {
-  // @@protoc_insertion_point(field_get:Shooter.PEquipment.EquipmentIndex)
-  return _internal_equipmentindex();
-}
-inline void PEquipment::_internal_set_equipmentindex(uint32_t value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.equipmentindex_ = value;
-}
-inline void PEquipment::set_equipmentindex(uint32_t value) {
-  _internal_set_equipmentindex(value);
-  // @@protoc_insertion_point(field_set:Shooter.PEquipment.EquipmentIndex)
-}
-
-// -------------------------------------------------------------------
-
 // PWeapon
 
-// optional bool WantToFire = 1;
-inline bool PWeapon::_internal_has_wanttofire() const {
+// .Shooter.PClientId Id = 1;
+inline bool PWeapon::_internal_has_id() const {
+  return this != internal_default_instance() && _impl_.id_ != nullptr;
+}
+inline bool PWeapon::has_id() const {
+  return _internal_has_id();
+}
+inline void PWeapon::clear_id() {
+  if (GetArenaForAllocation() == nullptr && _impl_.id_ != nullptr) {
+    delete _impl_.id_;
+  }
+  _impl_.id_ = nullptr;
+}
+inline const ::Shooter::PClientId& PWeapon::_internal_id() const {
+  const ::Shooter::PClientId* p = _impl_.id_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PClientId&>(
+      ::Shooter::_PClientId_default_instance_);
+}
+inline const ::Shooter::PClientId& PWeapon::id() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.Id)
+  return _internal_id();
+}
+inline void PWeapon::unsafe_arena_set_allocated_id(
+    ::Shooter::PClientId* id) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.id_);
+  }
+  _impl_.id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PWeapon.Id)
+}
+inline ::Shooter::PClientId* PWeapon::release_id() {
+  
+  ::Shooter::PClientId* temp = _impl_.id_;
+  _impl_.id_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Shooter::PClientId* PWeapon::unsafe_arena_release_id() {
+  // @@protoc_insertion_point(field_release:Shooter.PWeapon.Id)
+  
+  ::Shooter::PClientId* temp = _impl_.id_;
+  _impl_.id_ = nullptr;
+  return temp;
+}
+inline ::Shooter::PClientId* PWeapon::_internal_mutable_id() {
+  
+  if (_impl_.id_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Shooter::PClientId>(GetArenaForAllocation());
+    _impl_.id_ = p;
+  }
+  return _impl_.id_;
+}
+inline ::Shooter::PClientId* PWeapon::mutable_id() {
+  ::Shooter::PClientId* _msg = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:Shooter.PWeapon.Id)
+  return _msg;
+}
+inline void PWeapon::set_allocated_id(::Shooter::PClientId* id) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.id_;
+  }
+  if (id) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(id);
+    if (message_arena != submessage_arena) {
+      id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, id, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.id_ = id;
+  // @@protoc_insertion_point(field_set_allocated:Shooter.PWeapon.Id)
+}
+
+// optional bool StartFire = 2;
+inline bool PWeapon::_internal_has_startfire() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline bool PWeapon::has_wanttofire() const {
-  return _internal_has_wanttofire();
+inline bool PWeapon::has_startfire() const {
+  return _internal_has_startfire();
 }
-inline void PWeapon::clear_wanttofire() {
-  _impl_.wanttofire_ = false;
+inline void PWeapon::clear_startfire() {
+  _impl_.startfire_ = false;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline bool PWeapon::_internal_wanttofire() const {
-  return _impl_.wanttofire_;
+inline bool PWeapon::_internal_startfire() const {
+  return _impl_.startfire_;
 }
-inline bool PWeapon::wanttofire() const {
-  // @@protoc_insertion_point(field_get:Shooter.PWeapon.WantToFire)
-  return _internal_wanttofire();
+inline bool PWeapon::startfire() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.StartFire)
+  return _internal_startfire();
 }
-inline void PWeapon::_internal_set_wanttofire(bool value) {
+inline void PWeapon::_internal_set_startfire(bool value) {
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.wanttofire_ = value;
+  _impl_.startfire_ = value;
 }
-inline void PWeapon::set_wanttofire(bool value) {
-  _internal_set_wanttofire(value);
-  // @@protoc_insertion_point(field_set:Shooter.PWeapon.WantToFire)
+inline void PWeapon::set_startfire(bool value) {
+  _internal_set_startfire(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.StartFire)
 }
 
-// optional uint32 WeaponState = 2;
-inline bool PWeapon::_internal_has_weaponstate() const {
+// optional bool StopFire = 3;
+inline bool PWeapon::_internal_has_stopfire() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
-inline bool PWeapon::has_weaponstate() const {
-  return _internal_has_weaponstate();
+inline bool PWeapon::has_stopfire() const {
+  return _internal_has_stopfire();
 }
-inline void PWeapon::clear_weaponstate() {
-  _impl_.weaponstate_ = 0u;
+inline void PWeapon::clear_stopfire() {
+  _impl_.stopfire_ = false;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline uint32_t PWeapon::_internal_weaponstate() const {
-  return _impl_.weaponstate_;
+inline bool PWeapon::_internal_stopfire() const {
+  return _impl_.stopfire_;
 }
-inline uint32_t PWeapon::weaponstate() const {
-  // @@protoc_insertion_point(field_get:Shooter.PWeapon.WeaponState)
-  return _internal_weaponstate();
+inline bool PWeapon::stopfire() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.StopFire)
+  return _internal_stopfire();
 }
-inline void PWeapon::_internal_set_weaponstate(uint32_t value) {
+inline void PWeapon::_internal_set_stopfire(bool value) {
   _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.weaponstate_ = value;
+  _impl_.stopfire_ = value;
 }
-inline void PWeapon::set_weaponstate(uint32_t value) {
-  _internal_set_weaponstate(value);
-  // @@protoc_insertion_point(field_set:Shooter.PWeapon.WeaponState)
+inline void PWeapon::set_stopfire(bool value) {
+  _internal_set_stopfire(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.StopFire)
 }
 
-// optional uint32 AmmoCount = 3;
-inline bool PWeapon::_internal_has_ammocount() const {
+// optional bool ChangeNextWeapon = 4;
+inline bool PWeapon::_internal_has_changenextweapon() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
 }
-inline bool PWeapon::has_ammocount() const {
-  return _internal_has_ammocount();
+inline bool PWeapon::has_changenextweapon() const {
+  return _internal_has_changenextweapon();
 }
-inline void PWeapon::clear_ammocount() {
-  _impl_.ammocount_ = 0u;
+inline void PWeapon::clear_changenextweapon() {
+  _impl_.changenextweapon_ = false;
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline uint32_t PWeapon::_internal_ammocount() const {
-  return _impl_.ammocount_;
+inline bool PWeapon::_internal_changenextweapon() const {
+  return _impl_.changenextweapon_;
 }
-inline uint32_t PWeapon::ammocount() const {
-  // @@protoc_insertion_point(field_get:Shooter.PWeapon.AmmoCount)
-  return _internal_ammocount();
+inline bool PWeapon::changenextweapon() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.ChangeNextWeapon)
+  return _internal_changenextweapon();
 }
-inline void PWeapon::_internal_set_ammocount(uint32_t value) {
+inline void PWeapon::_internal_set_changenextweapon(bool value) {
   _impl_._has_bits_[0] |= 0x00000004u;
-  _impl_.ammocount_ = value;
+  _impl_.changenextweapon_ = value;
 }
-inline void PWeapon::set_ammocount(uint32_t value) {
-  _internal_set_ammocount(value);
-  // @@protoc_insertion_point(field_set:Shooter.PWeapon.AmmoCount)
+inline void PWeapon::set_changenextweapon(bool value) {
+  _internal_set_changenextweapon(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.ChangeNextWeapon)
+}
+
+// optional bool ChangePrevWeapon = 5;
+inline bool PWeapon::_internal_has_changeprevweapon() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool PWeapon::has_changeprevweapon() const {
+  return _internal_has_changeprevweapon();
+}
+inline void PWeapon::clear_changeprevweapon() {
+  _impl_.changeprevweapon_ = false;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline bool PWeapon::_internal_changeprevweapon() const {
+  return _impl_.changeprevweapon_;
+}
+inline bool PWeapon::changeprevweapon() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.ChangePrevWeapon)
+  return _internal_changeprevweapon();
+}
+inline void PWeapon::_internal_set_changeprevweapon(bool value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.changeprevweapon_ = value;
+}
+inline void PWeapon::set_changeprevweapon(bool value) {
+  _internal_set_changeprevweapon(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.ChangePrevWeapon)
+}
+
+// optional bool StartReload = 6;
+inline bool PWeapon::_internal_has_startreload() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool PWeapon::has_startreload() const {
+  return _internal_has_startreload();
+}
+inline void PWeapon::clear_startreload() {
+  _impl_.startreload_ = false;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline bool PWeapon::_internal_startreload() const {
+  return _impl_.startreload_;
+}
+inline bool PWeapon::startreload() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.StartReload)
+  return _internal_startreload();
+}
+inline void PWeapon::_internal_set_startreload(bool value) {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_.startreload_ = value;
+}
+inline void PWeapon::set_startreload(bool value) {
+  _internal_set_startreload(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.StartReload)
 }
 
 // -------------------------------------------------------------------
@@ -1898,9 +1880,37 @@ inline void PPawnStatus::set_allocated_id(::Shooter::PClientId* id) {
   // @@protoc_insertion_point(field_set_allocated:Shooter.PPawnStatus.Id)
 }
 
-// optional float Health = 2;
+// optional bool WantToRun = 2;
+inline bool PPawnStatus::_internal_has_wanttorun() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool PPawnStatus::has_wanttorun() const {
+  return _internal_has_wanttorun();
+}
+inline void PPawnStatus::clear_wanttorun() {
+  _impl_.wanttorun_ = false;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline bool PPawnStatus::_internal_wanttorun() const {
+  return _impl_.wanttorun_;
+}
+inline bool PPawnStatus::wanttorun() const {
+  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.WantToRun)
+  return _internal_wanttorun();
+}
+inline void PPawnStatus::_internal_set_wanttorun(bool value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.wanttorun_ = value;
+}
+inline void PPawnStatus::set_wanttorun(bool value) {
+  _internal_set_wanttorun(value);
+  // @@protoc_insertion_point(field_set:Shooter.PPawnStatus.WantToRun)
+}
+
+// optional float Health = 3;
 inline bool PPawnStatus::_internal_has_health() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool PPawnStatus::has_health() const {
@@ -1908,7 +1918,7 @@ inline bool PPawnStatus::has_health() const {
 }
 inline void PPawnStatus::clear_health() {
   _impl_.health_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline float PPawnStatus::_internal_health() const {
   return _impl_.health_;
@@ -1918,192 +1928,12 @@ inline float PPawnStatus::health() const {
   return _internal_health();
 }
 inline void PPawnStatus::_internal_set_health(float value) {
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.health_ = value;
 }
 inline void PPawnStatus::set_health(float value) {
   _internal_set_health(value);
   // @@protoc_insertion_point(field_set:Shooter.PPawnStatus.Health)
-}
-
-// optional .Shooter.PEquipment EquipInfo = 3;
-inline bool PPawnStatus::_internal_has_equipinfo() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.equipinfo_ != nullptr);
-  return value;
-}
-inline bool PPawnStatus::has_equipinfo() const {
-  return _internal_has_equipinfo();
-}
-inline void PPawnStatus::clear_equipinfo() {
-  if (_impl_.equipinfo_ != nullptr) _impl_.equipinfo_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::Shooter::PEquipment& PPawnStatus::_internal_equipinfo() const {
-  const ::Shooter::PEquipment* p = _impl_.equipinfo_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PEquipment&>(
-      ::Shooter::_PEquipment_default_instance_);
-}
-inline const ::Shooter::PEquipment& PPawnStatus::equipinfo() const {
-  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.EquipInfo)
-  return _internal_equipinfo();
-}
-inline void PPawnStatus::unsafe_arena_set_allocated_equipinfo(
-    ::Shooter::PEquipment* equipinfo) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.equipinfo_);
-  }
-  _impl_.equipinfo_ = equipinfo;
-  if (equipinfo) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PPawnStatus.EquipInfo)
-}
-inline ::Shooter::PEquipment* PPawnStatus::release_equipinfo() {
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::Shooter::PEquipment* temp = _impl_.equipinfo_;
-  _impl_.equipinfo_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Shooter::PEquipment* PPawnStatus::unsafe_arena_release_equipinfo() {
-  // @@protoc_insertion_point(field_release:Shooter.PPawnStatus.EquipInfo)
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::Shooter::PEquipment* temp = _impl_.equipinfo_;
-  _impl_.equipinfo_ = nullptr;
-  return temp;
-}
-inline ::Shooter::PEquipment* PPawnStatus::_internal_mutable_equipinfo() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  if (_impl_.equipinfo_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Shooter::PEquipment>(GetArenaForAllocation());
-    _impl_.equipinfo_ = p;
-  }
-  return _impl_.equipinfo_;
-}
-inline ::Shooter::PEquipment* PPawnStatus::mutable_equipinfo() {
-  ::Shooter::PEquipment* _msg = _internal_mutable_equipinfo();
-  // @@protoc_insertion_point(field_mutable:Shooter.PPawnStatus.EquipInfo)
-  return _msg;
-}
-inline void PPawnStatus::set_allocated_equipinfo(::Shooter::PEquipment* equipinfo) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.equipinfo_;
-  }
-  if (equipinfo) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(equipinfo);
-    if (message_arena != submessage_arena) {
-      equipinfo = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, equipinfo, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.equipinfo_ = equipinfo;
-  // @@protoc_insertion_point(field_set_allocated:Shooter.PPawnStatus.EquipInfo)
-}
-
-// optional .Shooter.PWeapon WeaponInfo = 4;
-inline bool PPawnStatus::_internal_has_weaponinfo() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.weaponinfo_ != nullptr);
-  return value;
-}
-inline bool PPawnStatus::has_weaponinfo() const {
-  return _internal_has_weaponinfo();
-}
-inline void PPawnStatus::clear_weaponinfo() {
-  if (_impl_.weaponinfo_ != nullptr) _impl_.weaponinfo_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const ::Shooter::PWeapon& PPawnStatus::_internal_weaponinfo() const {
-  const ::Shooter::PWeapon* p = _impl_.weaponinfo_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PWeapon&>(
-      ::Shooter::_PWeapon_default_instance_);
-}
-inline const ::Shooter::PWeapon& PPawnStatus::weaponinfo() const {
-  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.WeaponInfo)
-  return _internal_weaponinfo();
-}
-inline void PPawnStatus::unsafe_arena_set_allocated_weaponinfo(
-    ::Shooter::PWeapon* weaponinfo) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.weaponinfo_);
-  }
-  _impl_.weaponinfo_ = weaponinfo;
-  if (weaponinfo) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PPawnStatus.WeaponInfo)
-}
-inline ::Shooter::PWeapon* PPawnStatus::release_weaponinfo() {
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Shooter::PWeapon* temp = _impl_.weaponinfo_;
-  _impl_.weaponinfo_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Shooter::PWeapon* PPawnStatus::unsafe_arena_release_weaponinfo() {
-  // @@protoc_insertion_point(field_release:Shooter.PPawnStatus.WeaponInfo)
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::Shooter::PWeapon* temp = _impl_.weaponinfo_;
-  _impl_.weaponinfo_ = nullptr;
-  return temp;
-}
-inline ::Shooter::PWeapon* PPawnStatus::_internal_mutable_weaponinfo() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  if (_impl_.weaponinfo_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Shooter::PWeapon>(GetArenaForAllocation());
-    _impl_.weaponinfo_ = p;
-  }
-  return _impl_.weaponinfo_;
-}
-inline ::Shooter::PWeapon* PPawnStatus::mutable_weaponinfo() {
-  ::Shooter::PWeapon* _msg = _internal_mutable_weaponinfo();
-  // @@protoc_insertion_point(field_mutable:Shooter.PPawnStatus.WeaponInfo)
-  return _msg;
-}
-inline void PPawnStatus::set_allocated_weaponinfo(::Shooter::PWeapon* weaponinfo) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.weaponinfo_;
-  }
-  if (weaponinfo) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(weaponinfo);
-    if (message_arena != submessage_arena) {
-      weaponinfo = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, weaponinfo, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.weaponinfo_ = weaponinfo;
-  // @@protoc_insertion_point(field_set_allocated:Shooter.PPawnStatus.WeaponInfo)
 }
 
 // -------------------------------------------------------------------
@@ -2623,8 +2453,6 @@ inline void PAnimState::set_aimpitch(float value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
