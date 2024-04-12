@@ -22,7 +22,7 @@
 using namespace std;
 
 #define	MAX_PACKETBUF	1024
-#define SERVER_PORT		9000
+#define SERVER_PORT		9001
 #define SERVER_IP		"127.0.0.1"
 #define CLIENT_MAX		100
 
@@ -61,4 +61,59 @@ struct SOverlappedEx
 	WSAOVERLAPPED WSAOverlapped;
 	WSABUF WsaBuf;
 	EPacketOperation Operation;
+};
+
+struct FVector
+{
+	FVector()
+	{
+		X = Y = Z = 0.f;
+	}
+	FVector(float v)
+	{
+		X = Y = Z = v;
+	}
+	FVector(float x, float y, float z)
+	{
+		X = x;
+		Y = y;
+		Z = z;
+	}
+
+	float X;
+	float Y;
+	float Z;
+};
+
+struct FRotator
+{
+	FRotator()
+	{
+		Roll = Pitch = Yaw = 0.f;
+	}
+	FRotator(float v)
+	{
+		Roll = Pitch = Yaw = v;
+	}
+	FRotator(float rol, float pit, float yaw)
+	{
+		Roll = rol;
+		Pitch = pit;
+		Yaw = yaw;
+	}
+
+	float Roll;
+	float Pitch;
+	float Yaw;
+};
+
+struct ClientInfo
+{
+	ClientInfo(FVector Vector, FRotator Rotator)
+	{
+		Location = Vector;
+		Rotation = Rotator;
+	}
+	FVector Location;
+	FRotator Rotation;
 };

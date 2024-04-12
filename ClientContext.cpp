@@ -36,14 +36,11 @@ bool CClientContext::BindServerPort(HANDLE InIOCPHandle)
 
 bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 {
-	// 데이터가 없거나 패킷을 송신중일 때는 대기
-	if (DataLen <= 0 || IsSending)
+	if (DataLen <= 0)
 	{
-		printf_s("데이터 크기 : %d, 보내는 중인 여부 : %d\n", DataLen, IsSending);
+		//printf_s("데이터 크기 : %d, 보내는 중인 여부 : %d\n", DataLen, IsSending);
 		return false;
 	}
-
-	IsSending = true;
 
 	DWORD Flags = 0;
 	DWORD BytesSent = 0;
@@ -75,11 +72,6 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	}
 
 	return true;
-}
-
-void CClientContext::CompleteSendPacket()
-{
-	IsSending = false;
 }
 
 bool CClientContext::ReceivePacket()

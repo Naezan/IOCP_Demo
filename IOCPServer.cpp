@@ -240,13 +240,13 @@ bool CIOCPServer::SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT
 		{
 			if (!ClientContexts[i]->SendPendingPacket(PacketData, PacketSize))
 			{
-				printf_s("[전송 실패] 전송 실패한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
+				//printf_s("[전송 실패] 전송 실패한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
 				if (IsReliable)
 				{
 					continue;
 				}
 			}
-			printf_s("[전송 성공] 전송 성공한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
+			//printf_s("[전송 성공] 전송 성공한 클라이언트 : %d\n", ClientContexts[i]->GetIndex());
 		}
 		++i;
 	}
@@ -385,14 +385,14 @@ void CIOCPServer::WorkThread()
 		if (EPacketOperation::RECV == LpOverlappedEx->Operation)
 		{
 			PacketHeader* Header = (PacketHeader*)ClientContext->GetRecvData();
-			printf_s("[수신] 클라이언트 : %d \t 수신된 데이터 크기 : %d\n", ClientContext->GetIndex(), Header->PacketSize);
+			//printf_s("[수신] 클라이언트 : %d \t 수신된 데이터 크기 : %d\n", ClientContext->GetIndex(), Header->PacketSize);
 
 			DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
 		}
 		else if (EPacketOperation::SEND == LpOverlappedEx->Operation)
 		{
-			printf_s("[송신 완료] 클라이언트 : %d \t 데이터가 성공적으로 송신됨\n", ClientContext->GetIndex());
-			ClientContext->CompleteSendPacket();
+			//printf_s("[송신 완료] 클라이언트 : %d \t 데이터가 성공적으로 송신됨\n", ClientContext->GetIndex());
+			//ClientContext->CompleteSendPacket();
 		}
 
 		//OnProcessed(ClientContext->GetIndex(), TransferredByte);
@@ -428,6 +428,7 @@ void CIOCPServer::AcceptThread()
 		{
 			// 클라가 패킷을 수신에 실패하면 서버와 연결 종료
 			ClientContext->CloseSocket();
+			printf_s("클라 서버 연결 실패 \t Socket : %d\n", (int)ClientContext->GetSocket());
 			return;
 		}
 
@@ -454,7 +455,7 @@ void CIOCPServer::SendThread()
 			// 여기서 클라이언트에게 비동기적으로 패킷 전송
 			if (SendPacket(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize()))
 			{
-				printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
+				//printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
 			}
 		}
 		else
@@ -472,10 +473,11 @@ void CIOCPServer::SendBroadCastThread()
 
 		if (PacketData.GetSize() > 0)
 		{
+			printf_s("쌓인 데이터 : %d\n", IOSendBCPacketQue.size());
 			// 여기서 클라이언트에게 비동기적으로 패킷 전송
 			if (SendPacketBroadCast(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize(), PacketData.bIsReliable))
 			{
-				printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
+				//printf_s("[송신] 클라이언트 : %d \t 패킷크기 : %d\n", PacketData.GetIndex(), PacketData.GetSize());
 			}
 		}
 		else
@@ -506,10 +508,42 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 	Shooter::PMovement LoginPacket;
 	LoginPacket.ParseFromArray(Data, DataSize);
 
+	auto it = ConnectedPlayers.find(LoginPacket.id().index());
+	if (it == ConnectedPlayers.end())
+	{
+		//이전에 로그인된 플레이어의 정보들을 패킷화하여 전달
+		SendPrevPlayerPackets();
+
+		//플레이어의 초기 위치정보 저장
+		ConnectedPlayers.emplace(LoginPacket.id().index(),
+			ClientInfo(
+				FVector(LoginPacket.loc().x(), LoginPacket.loc().y(), LoginPacket.loc().z()),
+				FRotator(LoginPacket.rot().roll(), LoginPacket.rot().pitch(), LoginPacket.rot().yaw()))
+		);
+	}
+
 	PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.mutable_id()->index());
 	LoginBuffer.bIsReliable = true;
 	// 스폰 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(LoginBuffer);
+}
+
+void CIOCPServer::SendPrevPlayerPackets()
+{
+	for (auto& Player : ConnectedPlayers)
+	{
+		Shooter::PMovement LoginPacket;
+		LoginPacket.mutable_id()->set_index(Player.first);
+		LoginPacket.mutable_loc()->set_x(Player.second.Location.X);
+		LoginPacket.mutable_loc()->set_y(Player.second.Location.Y);
+		LoginPacket.mutable_loc()->set_z(Player.second.Location.Z);
+		LoginPacket.mutable_rot()->set_pitch(Player.second.Rotation.Pitch);
+		LoginPacket.mutable_rot()->set_roll(Player.second.Rotation.Roll);
+		LoginPacket.mutable_rot()->set_yaw(Player.second.Rotation.Yaw);
+
+		PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.id().index());
+		IOSendPacketQue.push_back(LoginBuffer);
+	}
 }
 
 void CIOCPServer::RecvPawnStatusPacket(void* Data, UINT16 DataSize)
@@ -556,6 +590,8 @@ void CIOCPServer::RecvWeaponPacket(void* Data, UINT16 DataSize)
 	WeaponPacket.ParseFromArray(Data, DataSize);
 
 	PacketBuffer WeaponBuffer = SerializePacket<Shooter::PWeapon>(WeaponPacket, WeaponState_C, WeaponPacket.mutable_id()->index());
+	WeaponBuffer.bIsReliable = true;
+
 	// 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(WeaponBuffer);
 }

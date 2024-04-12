@@ -77,6 +77,7 @@ private:
 	void DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 DataSize);
 
 	void RecvLoginPacket(void* Data, UINT16 DataSize);
+	void SendPrevPlayerPackets();
 	void RecvPawnStatusPacket(void* Data, UINT16 DataSize);
 	void RecvMovementPacket(void* Data, UINT16 DataSize);
 	void RecvAnimPacket(void* Data, UINT16 DataSize);
@@ -86,7 +87,8 @@ private:
 	HANDLE IOCPHandle = INVALID_HANDLE_VALUE;
 	SOCKET ListenSocket = INVALID_SOCKET;
 
-	std::unordered_map<EPacketType, std::function<void(void*, UINT16)>> PacketFuncMap;
+	unordered_map<EPacketType, std::function<void(void*, UINT16)>> PacketFuncMap;
+	unordered_map<int, ClientInfo> ConnectedPlayers;
 
 	vector<CClientContext*> ClientContexts;
 	deque<PacketBuffer> IOSendPacketQue;
