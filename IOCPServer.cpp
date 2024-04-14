@@ -542,12 +542,21 @@ void CIOCPServer::RecvLoginPacket(void* Data, UINT16 DataSize)
 	LoginBuffer.bIsReliable = true;
 	// 스폰 패킷 브로드캐스팅
 	IOSendBCPacketQue.push_back(LoginBuffer);
+
+	//이전에 로그인된 플레이어 데이터 전달
+	SendLoginedPlayerPackets(LoginPacket.id().index());
+
 }
 
-void CIOCPServer::SendPrevPlayerPackets()
+void CIOCPServer::SendLoginedPlayerPackets(int TargetClientIndex)
 {
 	for (auto& Player : ConnectedPlayers)
 	{
+		if (Player.first == TargetClientIndex)
+		{
+			continue;
+		}
+
 		Shooter::PMovement LoginPacket;
 		LoginPacket.mutable_id()->set_index(Player.first);
 		LoginPacket.mutable_loc()->set_x(Player.second.Location.X);
@@ -557,7 +566,7 @@ void CIOCPServer::SendPrevPlayerPackets()
 		LoginPacket.mutable_rot()->set_roll(Player.second.Rotation.Roll);
 		LoginPacket.mutable_rot()->set_yaw(Player.second.Rotation.Yaw);
 
-		PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, LoginPacket.id().index());
+		PacketBuffer LoginBuffer = SerializePacket<Shooter::PMovement>(LoginPacket, Login_C, TargetClientIndex);
 		IOSendPacketQue.push_back(LoginBuffer);
 	}
 }

@@ -89,7 +89,7 @@ public:
 
 private:
 	void RecvLoginPacket(void* Data, UINT16 DataSize);
-	void SendPrevPlayerPackets();
+	void SendLoginedPlayerPackets(int TargetClientIndex);
 	void RecvFireEventPacket(void* Data, UINT16 DataSize);
 	void RecvMovementPacket(void* Data, UINT16 DataSize);
 	void RecvAnimPacket(void* Data, UINT16 DataSize);
