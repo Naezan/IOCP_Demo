@@ -30,6 +30,13 @@ using namespace std;
 // 충돌되지 않는 임의의 포트 지정
 constexpr UINT16 SOCK_MAXCONN = 5;
 
+struct OverlappedEx
+{
+	WSAOVERLAPPED WsaOverlapped; //첫번째 주소지 역할
+	WSABUF WsaBuf;
+	char RecvBuf[MAX_PACKETBUF];
+};
+
 enum EPacketType : uint16_t
 {
 	Conn_C,

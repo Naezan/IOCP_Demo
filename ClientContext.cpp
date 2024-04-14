@@ -18,11 +18,23 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	}
 
 	DWORD Flags = 0;
+	DWORD BytesSend = 0;
 
-	char* SendBuffer = new char[DataLen];
-	CopyMemory(SendBuffer, InData, DataLen);
+	OverlappedEx* SendWsaBuf = new OverlappedEx();
+	SendWsaBuf->WsaBuf.buf = RecvContext.RecvBuf;
+	SendWsaBuf->WsaBuf.len = DataLen;
+	CopyMemory(SendWsaBuf->WsaBuf.buf, InData, DataLen);
 
-	int Result = send(Socket, SendBuffer, DataLen, Flags);
+	//Send는 Overlapped에 NULL을 넣어 GetQueuedCompletionStatus에서 걸러지도록 합니다.
+	int Result = WSASend(
+		Socket,
+		&SendWsaBuf->WsaBuf,
+		1,
+		&BytesSend,
+		Flags,
+		NULL,
+		NULL
+	);
 
 	if (Result == SOCKET_ERROR)
 	{
@@ -31,7 +43,7 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	//SOCKET_ERROR이면 서버는 클라이언트의 데이터 송신에 실패함
 	if (Result == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING))
 	{
-		printf_s("[에러] SendPendingPacket|WSASend() 실패 : %d\n", WSAGetLastError());
+		printf_s("[에러] SendPendingPacket 실패 : %d\n", WSAGetLastError());
 		return false;
 	}
 
@@ -43,12 +55,25 @@ bool CClientContext::ReceivePacket()
 	DWORD Flags = 0;
 	DWORD BytesReceived = 0;
 
-	int Result = recv(Socket, RecvBuffer, MAX_PACKETBUF, Flags);
+	ZeroMemory(&(RecvContext.WsaOverlapped), sizeof(OVERLAPPED));
+	ZeroMemory(RecvContext.RecvBuf, MAX_PACKETBUF);
+	RecvContext.WsaBuf.len = MAX_PACKETBUF;
+	RecvContext.WsaBuf.buf = RecvContext.RecvBuf;
+
+	int Result = WSARecv(
+		Socket,
+		&(RecvContext.WsaBuf),
+		1,
+		&BytesReceived,
+		&Flags,
+		(LPWSAOVERLAPPED)&(RecvContext.WsaOverlapped),
+		NULL
+	);
 
 	//SOCKET_ERROR이면 데이터 수신에 실패함
 	if (Result == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING))
 	{
-		printf_s("[에러] RecvPacket|WSARecv() 실패 : %d\n", WSAGetLastError());
+		printf_s("[에러] ReceivePacket 실패 : %d\n", WSAGetLastError());
 		return false;
 	}
 
