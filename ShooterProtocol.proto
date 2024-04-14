@@ -20,16 +20,19 @@ message PWeapon {
 	optional bool ChangeNextWeapon = 4;
 	optional bool ChangePrevWeapon = 5;
 	optional bool StartReload = 6;
+	optional uint32 Ammo = 7;
+	optional uint32 ClipAmmo = 8;
+}
+
+message PFireEvent {
+	PClientId Id = 1;
+	float RandomSeed = 2;
+	PVector AimDir = 3;
+	PVector StartTrace = 4;
 }
 
 message PClientId {
 	uint32 Index = 1;
-}
-
-message PPawnStatus {
-	PClientId Id = 1;
-	optional bool WantToRun = 2;
-	optional float Health = 3;
 }
 
 message PMovement {

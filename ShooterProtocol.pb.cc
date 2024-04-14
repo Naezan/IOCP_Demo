@@ -60,7 +60,9 @@ PROTOBUF_CONSTEXPR PWeapon::PWeapon(
   , /*decltype(_impl_.stopfire_)*/false
   , /*decltype(_impl_.changenextweapon_)*/false
   , /*decltype(_impl_.changeprevweapon_)*/false
-  , /*decltype(_impl_.startreload_)*/false} {}
+  , /*decltype(_impl_.startreload_)*/false
+  , /*decltype(_impl_.ammo_)*/0u
+  , /*decltype(_impl_.clipammo_)*/0u} {}
 struct PWeaponDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PWeaponDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -70,6 +72,22 @@ struct PWeaponDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PWeaponDefaultTypeInternal _PWeapon_default_instance_;
+PROTOBUF_CONSTEXPR PFireEvent::PFireEvent(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id_)*/nullptr
+  , /*decltype(_impl_.aimdir_)*/nullptr
+  , /*decltype(_impl_.starttrace_)*/nullptr
+  , /*decltype(_impl_.randomseed_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct PFireEventDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PFireEventDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PFireEventDefaultTypeInternal() {}
+  union {
+    PFireEvent _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PFireEventDefaultTypeInternal _PFireEvent_default_instance_;
 PROTOBUF_CONSTEXPR PClientId::PClientId(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.index_)*/0u
@@ -83,22 +101,6 @@ struct PClientIdDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PClientIdDefaultTypeInternal _PClientId_default_instance_;
-PROTOBUF_CONSTEXPR PPawnStatus::PPawnStatus(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.id_)*/nullptr
-  , /*decltype(_impl_.wanttorun_)*/false
-  , /*decltype(_impl_.health_)*/0} {}
-struct PPawnStatusDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PPawnStatusDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PPawnStatusDefaultTypeInternal() {}
-  union {
-    PPawnStatus _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PPawnStatusDefaultTypeInternal _PPawnStatus_default_instance_;
 PROTOBUF_CONSTEXPR PMovement::PMovement(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
@@ -168,12 +170,26 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
   PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.changenextweapon_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.changeprevweapon_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.startreload_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.ammo_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PWeapon, _impl_.clipammo_),
   ~0u,
   0,
   1,
   2,
   3,
   4,
+  5,
+  6,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Shooter::PFireEvent, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Shooter::PFireEvent, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PFireEvent, _impl_.randomseed_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PFireEvent, _impl_.aimdir_),
+  PROTOBUF_FIELD_OFFSET(::Shooter::PFireEvent, _impl_.starttrace_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Shooter::PClientId, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -181,18 +197,6 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Shooter::PClientId, _impl_.index_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.id_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.wanttorun_),
-  PROTOBUF_FIELD_OFFSET(::Shooter::PPawnStatus, _impl_.health_),
-  ~0u,
-  0,
-  1,
   PROTOBUF_FIELD_OFFSET(::Shooter::PMovement, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::Shooter::PMovement, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -223,19 +227,19 @@ const uint32_t TableStruct_ShooterProtocol_2eproto::offsets[] PROTOBUF_SECTION_V
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Shooter::PVector)},
   { 9, -1, -1, sizeof(::Shooter::PRotator)},
-  { 18, 30, -1, sizeof(::Shooter::PWeapon)},
-  { 36, -1, -1, sizeof(::Shooter::PClientId)},
-  { 43, 52, -1, sizeof(::Shooter::PPawnStatus)},
-  { 55, 65, -1, sizeof(::Shooter::PMovement)},
-  { 69, 78, -1, sizeof(::Shooter::PAnimState)},
+  { 18, 32, -1, sizeof(::Shooter::PWeapon)},
+  { 40, -1, -1, sizeof(::Shooter::PFireEvent)},
+  { 50, -1, -1, sizeof(::Shooter::PClientId)},
+  { 57, 67, -1, sizeof(::Shooter::PMovement)},
+  { 71, 80, -1, sizeof(::Shooter::PAnimState)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::Shooter::_PVector_default_instance_._instance,
   &::Shooter::_PRotator_default_instance_._instance,
   &::Shooter::_PWeapon_default_instance_._instance,
+  &::Shooter::_PFireEvent_default_instance_._instance,
   &::Shooter::_PClientId_default_instance_._instance,
-  &::Shooter::_PPawnStatus_default_instance_._instance,
   &::Shooter::_PMovement_default_instance_._instance,
   &::Shooter::_PAnimState_default_instance_._instance,
 };
@@ -244,28 +248,31 @@ const char descriptor_table_protodef_ShooterProtocol_2eproto[] PROTOBUF_SECTION_
   "\n\025ShooterProtocol.proto\022\007Shooter\"*\n\007PVec"
   "tor\022\t\n\001X\030\001 \001(\002\022\t\n\001Y\030\002 \001(\002\022\t\n\001Z\030\003 \001(\002\"4\n\010"
   "PRotator\022\014\n\004Roll\030\001 \001(\002\022\r\n\005Pitch\030\002 \001(\002\022\013\n"
-  "\003Yaw\030\003 \001(\002\"\205\002\n\007PWeapon\022\036\n\002Id\030\001 \001(\0132\022.Sho"
+  "\003Yaw\030\003 \001(\002\"\305\002\n\007PWeapon\022\036\n\002Id\030\001 \001(\0132\022.Sho"
   "oter.PClientId\022\026\n\tStartFire\030\002 \001(\010H\000\210\001\001\022\025"
   "\n\010StopFire\030\003 \001(\010H\001\210\001\001\022\035\n\020ChangeNextWeapo"
   "n\030\004 \001(\010H\002\210\001\001\022\035\n\020ChangePrevWeapon\030\005 \001(\010H\003"
-  "\210\001\001\022\030\n\013StartReload\030\006 \001(\010H\004\210\001\001B\014\n\n_StartF"
-  "ireB\013\n\t_StopFireB\023\n\021_ChangeNextWeaponB\023\n"
-  "\021_ChangePrevWeaponB\016\n\014_StartReload\"\032\n\tPC"
-  "lientId\022\r\n\005Index\030\001 \001(\r\"s\n\013PPawnStatus\022\036\n"
-  "\002Id\030\001 \001(\0132\022.Shooter.PClientId\022\026\n\tWantToR"
-  "un\030\002 \001(\010H\000\210\001\001\022\023\n\006Health\030\003 \001(\002H\001\210\001\001B\014\n\n_W"
-  "antToRunB\t\n\007_Health\"\260\001\n\tPMovement\022\036\n\002Id\030"
-  "\001 \001(\0132\022.Shooter.PClientId\022\"\n\003Loc\030\002 \001(\0132\020"
-  ".Shooter.PVectorH\000\210\001\001\022#\n\003Rot\030\003 \001(\0132\021.Sho"
-  "oter.PRotatorH\001\210\001\001\022\"\n\003Vel\030\004 \001(\0132\020.Shoote"
-  "r.PVectorH\002\210\001\001B\006\n\004_LocB\006\n\004_RotB\006\n\004_Vel\"p"
-  "\n\nPAnimState\022\036\n\002Id\030\001 \001(\0132\022.Shooter.PClie"
-  "ntId\022\023\n\006AimYaw\030\002 \001(\002H\000\210\001\001\022\025\n\010AimPitch\030\003 "
-  "\001(\002H\001\210\001\001B\t\n\007_AimYawB\013\n\t_AimPitchb\006proto3"
+  "\210\001\001\022\030\n\013StartReload\030\006 \001(\010H\004\210\001\001\022\021\n\004Ammo\030\007 "
+  "\001(\rH\005\210\001\001\022\025\n\010ClipAmmo\030\010 \001(\rH\006\210\001\001B\014\n\n_Star"
+  "tFireB\013\n\t_StopFireB\023\n\021_ChangeNextWeaponB"
+  "\023\n\021_ChangePrevWeaponB\016\n\014_StartReloadB\007\n\005"
+  "_AmmoB\013\n\t_ClipAmmo\"\210\001\n\nPFireEvent\022\036\n\002Id\030"
+  "\001 \001(\0132\022.Shooter.PClientId\022\022\n\nRandomSeed\030"
+  "\002 \001(\002\022 \n\006AimDir\030\003 \001(\0132\020.Shooter.PVector\022"
+  "$\n\nStartTrace\030\004 \001(\0132\020.Shooter.PVector\"\032\n"
+  "\tPClientId\022\r\n\005Index\030\001 \001(\r\"\260\001\n\tPMovement\022"
+  "\036\n\002Id\030\001 \001(\0132\022.Shooter.PClientId\022\"\n\003Loc\030\002"
+  " \001(\0132\020.Shooter.PVectorH\000\210\001\001\022#\n\003Rot\030\003 \001(\013"
+  "2\021.Shooter.PRotatorH\001\210\001\001\022\"\n\003Vel\030\004 \001(\0132\020."
+  "Shooter.PVectorH\002\210\001\001B\006\n\004_LocB\006\n\004_RotB\006\n\004"
+  "_Vel\"p\n\nPAnimState\022\036\n\002Id\030\001 \001(\0132\022.Shooter"
+  ".PClientId\022\023\n\006AimYaw\030\002 \001(\002H\000\210\001\001\022\025\n\010AimPi"
+  "tch\030\003 \001(\002H\001\210\001\001B\t\n\007_AimYawB\013\n\t_AimPitchb\006"
+  "proto3"
   ;
 static ::_pbi::once_flag descriptor_table_ShooterProtocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ShooterProtocol_2eproto = {
-    false, false, 840, descriptor_table_protodef_ShooterProtocol_2eproto,
+    false, false, 926, descriptor_table_protodef_ShooterProtocol_2eproto,
     "ShooterProtocol.proto",
     &descriptor_table_ShooterProtocol_2eproto_once, nullptr, 0, 7,
     schemas, file_default_instances, TableStruct_ShooterProtocol_2eproto::offsets,
@@ -843,6 +850,12 @@ class PWeapon::_Internal {
   static void set_has_startreload(HasBits* has_bits) {
     (*has_bits)[0] |= 16u;
   }
+  static void set_has_ammo(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_clipammo(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
 };
 
 const ::Shooter::PClientId&
@@ -866,15 +879,17 @@ PWeapon::PWeapon(const PWeapon& from)
     , decltype(_impl_.stopfire_){}
     , decltype(_impl_.changenextweapon_){}
     , decltype(_impl_.changeprevweapon_){}
-    , decltype(_impl_.startreload_){}};
+    , decltype(_impl_.startreload_){}
+    , decltype(_impl_.ammo_){}
+    , decltype(_impl_.clipammo_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_id()) {
     _this->_impl_.id_ = new ::Shooter::PClientId(*from._impl_.id_);
   }
   ::memcpy(&_impl_.startfire_, &from._impl_.startfire_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.startreload_) -
-    reinterpret_cast<char*>(&_impl_.startfire_)) + sizeof(_impl_.startreload_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.clipammo_) -
+    reinterpret_cast<char*>(&_impl_.startfire_)) + sizeof(_impl_.clipammo_));
   // @@protoc_insertion_point(copy_constructor:Shooter.PWeapon)
 }
 
@@ -891,6 +906,8 @@ inline void PWeapon::SharedCtor(
     , decltype(_impl_.changenextweapon_){false}
     , decltype(_impl_.changeprevweapon_){false}
     , decltype(_impl_.startreload_){false}
+    , decltype(_impl_.ammo_){0u}
+    , decltype(_impl_.clipammo_){0u}
   };
 }
 
@@ -923,10 +940,10 @@ void PWeapon::Clear() {
   }
   _impl_.id_ = nullptr;
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000007fu) {
     ::memset(&_impl_.startfire_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.startreload_) -
-        reinterpret_cast<char*>(&_impl_.startfire_)) + sizeof(_impl_.startreload_));
+        reinterpret_cast<char*>(&_impl_.clipammo_) -
+        reinterpret_cast<char*>(&_impl_.startfire_)) + sizeof(_impl_.clipammo_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -988,6 +1005,24 @@ const char* PWeapon::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _Internal::set_has_startreload(&has_bits);
           _impl_.startreload_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 Ammo = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _Internal::set_has_ammo(&has_bits);
+          _impl_.ammo_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 ClipAmmo = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+          _Internal::set_has_clipammo(&has_bits);
+          _impl_.clipammo_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1059,6 +1094,18 @@ uint8_t* PWeapon::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_startreload(), target);
   }
 
+  // optional uint32 Ammo = 7;
+  if (_internal_has_ammo()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(7, this->_internal_ammo(), target);
+  }
+
+  // optional uint32 ClipAmmo = 8;
+  if (_internal_has_clipammo()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(8, this->_internal_clipammo(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1083,7 +1130,7 @@ size_t PWeapon::ByteSizeLong() const {
   }
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000007fu) {
     // optional bool StartFire = 2;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 + 1;
@@ -1107,6 +1154,16 @@ size_t PWeapon::ByteSizeLong() const {
     // optional bool StartReload = 6;
     if (cached_has_bits & 0x00000010u) {
       total_size += 1 + 1;
+    }
+
+    // optional uint32 Ammo = 7;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_ammo());
+    }
+
+    // optional uint32 ClipAmmo = 8;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_clipammo());
     }
 
   }
@@ -1133,7 +1190,7 @@ void PWeapon::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
         from._internal_id());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000007fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_impl_.startfire_ = from._impl_.startfire_;
     }
@@ -1148,6 +1205,12 @@ void PWeapon::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
     }
     if (cached_has_bits & 0x00000010u) {
       _this->_impl_.startreload_ = from._impl_.startreload_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.ammo_ = from._impl_.ammo_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.clipammo_ = from._impl_.clipammo_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -1170,8 +1233,8 @@ void PWeapon::InternalSwap(PWeapon* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PWeapon, _impl_.startreload_)
-      + sizeof(PWeapon::_impl_.startreload_)
+      PROTOBUF_FIELD_OFFSET(PWeapon, _impl_.clipammo_)
+      + sizeof(PWeapon::_impl_.clipammo_)
       - PROTOBUF_FIELD_OFFSET(PWeapon, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));
@@ -1181,6 +1244,324 @@ void PWeapon::InternalSwap(PWeapon* other) {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
       file_level_metadata_ShooterProtocol_2eproto[2]);
+}
+
+// ===================================================================
+
+class PFireEvent::_Internal {
+ public:
+  static const ::Shooter::PClientId& id(const PFireEvent* msg);
+  static const ::Shooter::PVector& aimdir(const PFireEvent* msg);
+  static const ::Shooter::PVector& starttrace(const PFireEvent* msg);
+};
+
+const ::Shooter::PClientId&
+PFireEvent::_Internal::id(const PFireEvent* msg) {
+  return *msg->_impl_.id_;
+}
+const ::Shooter::PVector&
+PFireEvent::_Internal::aimdir(const PFireEvent* msg) {
+  return *msg->_impl_.aimdir_;
+}
+const ::Shooter::PVector&
+PFireEvent::_Internal::starttrace(const PFireEvent* msg) {
+  return *msg->_impl_.starttrace_;
+}
+PFireEvent::PFireEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Shooter.PFireEvent)
+}
+PFireEvent::PFireEvent(const PFireEvent& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  PFireEvent* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){nullptr}
+    , decltype(_impl_.aimdir_){nullptr}
+    , decltype(_impl_.starttrace_){nullptr}
+    , decltype(_impl_.randomseed_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_id()) {
+    _this->_impl_.id_ = new ::Shooter::PClientId(*from._impl_.id_);
+  }
+  if (from._internal_has_aimdir()) {
+    _this->_impl_.aimdir_ = new ::Shooter::PVector(*from._impl_.aimdir_);
+  }
+  if (from._internal_has_starttrace()) {
+    _this->_impl_.starttrace_ = new ::Shooter::PVector(*from._impl_.starttrace_);
+  }
+  _this->_impl_.randomseed_ = from._impl_.randomseed_;
+  // @@protoc_insertion_point(copy_constructor:Shooter.PFireEvent)
+}
+
+inline void PFireEvent::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){nullptr}
+    , decltype(_impl_.aimdir_){nullptr}
+    , decltype(_impl_.starttrace_){nullptr}
+    , decltype(_impl_.randomseed_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+PFireEvent::~PFireEvent() {
+  // @@protoc_insertion_point(destructor:Shooter.PFireEvent)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void PFireEvent::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.id_;
+  if (this != internal_default_instance()) delete _impl_.aimdir_;
+  if (this != internal_default_instance()) delete _impl_.starttrace_;
+}
+
+void PFireEvent::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void PFireEvent::Clear() {
+// @@protoc_insertion_point(message_clear_start:Shooter.PFireEvent)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.id_ != nullptr) {
+    delete _impl_.id_;
+  }
+  _impl_.id_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.aimdir_ != nullptr) {
+    delete _impl_.aimdir_;
+  }
+  _impl_.aimdir_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.starttrace_ != nullptr) {
+    delete _impl_.starttrace_;
+  }
+  _impl_.starttrace_ = nullptr;
+  _impl_.randomseed_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PFireEvent::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .Shooter.PClientId Id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_id(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // float RandomSeed = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _impl_.randomseed_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Shooter.PVector AimDir = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_aimdir(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Shooter.PVector StartTrace = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_starttrace(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* PFireEvent::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PFireEvent)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .Shooter.PClientId Id = 1;
+  if (this->_internal_has_id()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::id(this),
+        _Internal::id(this).GetCachedSize(), target, stream);
+  }
+
+  // float RandomSeed = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_randomseed = this->_internal_randomseed();
+  uint32_t raw_randomseed;
+  memcpy(&raw_randomseed, &tmp_randomseed, sizeof(tmp_randomseed));
+  if (raw_randomseed != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_randomseed(), target);
+  }
+
+  // .Shooter.PVector AimDir = 3;
+  if (this->_internal_has_aimdir()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::aimdir(this),
+        _Internal::aimdir(this).GetCachedSize(), target, stream);
+  }
+
+  // .Shooter.PVector StartTrace = 4;
+  if (this->_internal_has_starttrace()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::starttrace(this),
+        _Internal::starttrace(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PFireEvent)
+  return target;
+}
+
+size_t PFireEvent::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Shooter.PFireEvent)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Shooter.PClientId Id = 1;
+  if (this->_internal_has_id()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.id_);
+  }
+
+  // .Shooter.PVector AimDir = 3;
+  if (this->_internal_has_aimdir()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.aimdir_);
+  }
+
+  // .Shooter.PVector StartTrace = 4;
+  if (this->_internal_has_starttrace()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.starttrace_);
+  }
+
+  // float RandomSeed = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_randomseed = this->_internal_randomseed();
+  uint32_t raw_randomseed;
+  memcpy(&raw_randomseed, &tmp_randomseed, sizeof(tmp_randomseed));
+  if (raw_randomseed != 0) {
+    total_size += 1 + 4;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PFireEvent::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    PFireEvent::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PFireEvent::GetClassData() const { return &_class_data_; }
+
+
+void PFireEvent::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PFireEvent*>(&to_msg);
+  auto& from = static_cast<const PFireEvent&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PFireEvent)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_id()) {
+    _this->_internal_mutable_id()->::Shooter::PClientId::MergeFrom(
+        from._internal_id());
+  }
+  if (from._internal_has_aimdir()) {
+    _this->_internal_mutable_aimdir()->::Shooter::PVector::MergeFrom(
+        from._internal_aimdir());
+  }
+  if (from._internal_has_starttrace()) {
+    _this->_internal_mutable_starttrace()->::Shooter::PVector::MergeFrom(
+        from._internal_starttrace());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_randomseed = from._internal_randomseed();
+  uint32_t raw_randomseed;
+  memcpy(&raw_randomseed, &tmp_randomseed, sizeof(tmp_randomseed));
+  if (raw_randomseed != 0) {
+    _this->_internal_set_randomseed(from._internal_randomseed());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PFireEvent::CopyFrom(const PFireEvent& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PFireEvent)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PFireEvent::IsInitialized() const {
+  return true;
+}
+
+void PFireEvent::InternalSwap(PFireEvent* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PFireEvent, _impl_.randomseed_)
+      + sizeof(PFireEvent::_impl_.randomseed_)
+      - PROTOBUF_FIELD_OFFSET(PFireEvent, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PFireEvent::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
+      file_level_metadata_ShooterProtocol_2eproto[3]);
 }
 
 // ===================================================================
@@ -1356,283 +1737,6 @@ void PClientId::InternalSwap(PClientId* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PClientId::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
-      file_level_metadata_ShooterProtocol_2eproto[3]);
-}
-
-// ===================================================================
-
-class PPawnStatus::_Internal {
- public:
-  using HasBits = decltype(std::declval<PPawnStatus>()._impl_._has_bits_);
-  static const ::Shooter::PClientId& id(const PPawnStatus* msg);
-  static void set_has_wanttorun(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_health(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-};
-
-const ::Shooter::PClientId&
-PPawnStatus::_Internal::id(const PPawnStatus* msg) {
-  return *msg->_impl_.id_;
-}
-PPawnStatus::PPawnStatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Shooter.PPawnStatus)
-}
-PPawnStatus::PPawnStatus(const PPawnStatus& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  PPawnStatus* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.id_){nullptr}
-    , decltype(_impl_.wanttorun_){}
-    , decltype(_impl_.health_){}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_id()) {
-    _this->_impl_.id_ = new ::Shooter::PClientId(*from._impl_.id_);
-  }
-  ::memcpy(&_impl_.wanttorun_, &from._impl_.wanttorun_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.health_) -
-    reinterpret_cast<char*>(&_impl_.wanttorun_)) + sizeof(_impl_.health_));
-  // @@protoc_insertion_point(copy_constructor:Shooter.PPawnStatus)
-}
-
-inline void PPawnStatus::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.id_){nullptr}
-    , decltype(_impl_.wanttorun_){false}
-    , decltype(_impl_.health_){0}
-  };
-}
-
-PPawnStatus::~PPawnStatus() {
-  // @@protoc_insertion_point(destructor:Shooter.PPawnStatus)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void PPawnStatus::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.id_;
-}
-
-void PPawnStatus::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void PPawnStatus::Clear() {
-// @@protoc_insertion_point(message_clear_start:Shooter.PPawnStatus)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && _impl_.id_ != nullptr) {
-    delete _impl_.id_;
-  }
-  _impl_.id_ = nullptr;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&_impl_.wanttorun_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.health_) -
-        reinterpret_cast<char*>(&_impl_.wanttorun_)) + sizeof(_impl_.health_));
-  }
-  _impl_._has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* PPawnStatus::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // .Shooter.PClientId Id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_id(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // optional bool WantToRun = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_wanttorun(&has_bits);
-          _impl_.wanttorun_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // optional float Health = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
-          _Internal::set_has_health(&has_bits);
-          _impl_.health_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _impl_._has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* PPawnStatus::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Shooter.PPawnStatus)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .Shooter.PClientId Id = 1;
-  if (this->_internal_has_id()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::id(this),
-        _Internal::id(this).GetCachedSize(), target, stream);
-  }
-
-  // optional bool WantToRun = 2;
-  if (_internal_has_wanttorun()) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_wanttorun(), target);
-  }
-
-  // optional float Health = 3;
-  if (_internal_has_health()) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_health(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Shooter.PPawnStatus)
-  return target;
-}
-
-size_t PPawnStatus::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Shooter.PPawnStatus)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .Shooter.PClientId Id = 1;
-  if (this->_internal_has_id()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.id_);
-  }
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional bool WantToRun = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 + 1;
-    }
-
-    // optional float Health = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 + 4;
-    }
-
-  }
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PPawnStatus::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    PPawnStatus::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PPawnStatus::GetClassData() const { return &_class_data_; }
-
-
-void PPawnStatus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<PPawnStatus*>(&to_msg);
-  auto& from = static_cast<const PPawnStatus&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Shooter.PPawnStatus)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_has_id()) {
-    _this->_internal_mutable_id()->::Shooter::PClientId::MergeFrom(
-        from._internal_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_impl_.wanttorun_ = from._impl_.wanttorun_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.health_ = from._impl_.health_;
-    }
-    _this->_impl_._has_bits_[0] |= cached_has_bits;
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void PPawnStatus::CopyFrom(const PPawnStatus& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Shooter.PPawnStatus)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool PPawnStatus::IsInitialized() const {
-  return true;
-}
-
-void PPawnStatus::InternalSwap(PPawnStatus* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.health_)
-      + sizeof(PPawnStatus::_impl_.health_)
-      - PROTOBUF_FIELD_OFFSET(PPawnStatus, _impl_.id_)>(
-          reinterpret_cast<char*>(&_impl_.id_),
-          reinterpret_cast<char*>(&other->_impl_.id_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata PPawnStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ShooterProtocol_2eproto_getter, &descriptor_table_ShooterProtocol_2eproto_once,
       file_level_metadata_ShooterProtocol_2eproto[4]);
@@ -2276,13 +2380,13 @@ template<> PROTOBUF_NOINLINE ::Shooter::PWeapon*
 Arena::CreateMaybeMessage< ::Shooter::PWeapon >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Shooter::PWeapon >(arena);
 }
+template<> PROTOBUF_NOINLINE ::Shooter::PFireEvent*
+Arena::CreateMaybeMessage< ::Shooter::PFireEvent >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Shooter::PFireEvent >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Shooter::PClientId*
 Arena::CreateMaybeMessage< ::Shooter::PClientId >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Shooter::PClientId >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Shooter::PPawnStatus*
-Arena::CreateMaybeMessage< ::Shooter::PPawnStatus >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Shooter::PPawnStatus >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Shooter::PMovement*
 Arena::CreateMaybeMessage< ::Shooter::PMovement >(Arena* arena) {

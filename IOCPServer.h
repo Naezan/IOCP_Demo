@@ -12,8 +12,6 @@ public:
 
 	// 서버와 클라가 연결되었을 때 호출
 	virtual void OnConnected(UINT16 Index);
-	// 서버가 클라로부터 데이터를 처리중일 때 호출
-	virtual void OnProcessed(UINT16 Index, UINT32 InSize);
 	// 서버와 클라의 접속이 끊겼을 때 호출
 	virtual void OnClosed(UINT16 Index);
 
@@ -30,6 +28,7 @@ public:
 	bool SendPacketBroadCast(UINT16 ClientIndex, char* PacketData, UINT32 PacketSize, bool IsReliable);
 	void DisconnectSocket(CClientContext* ClientContext, bool bIsForce = false);
 
+	int GetEmptyClientIndex();
 	CClientContext* GetEmptyClientContext();
 	CClientContext* GetClientContext(UINT32 ClientIndex)
 	{
@@ -42,13 +41,10 @@ public:
 private:
 	bool CreateWorkThread();
 	// 클러 접속 수신용 스레드
-	bool CreateAcceptThread();
 	bool CreateSendThread();
 	bool CreateSendBroadCastThread();
 
 	void WorkThread();
-	// 클라이언트의 접속 수신. 접속은 한번에 한명씩
-	void AcceptThread();
 	// 데이터 전송은 한쓰레드에서 한 패킷씩
 	void SendThread();
 	void SendBroadCastThread();
@@ -78,14 +74,16 @@ private:
 
 	void RecvLoginPacket(void* Data, UINT16 DataSize);
 	void SendPrevPlayerPackets();
-	void RecvPawnStatusPacket(void* Data, UINT16 DataSize);
+	void RecvFireEventPacket(void* Data, UINT16 DataSize);
 	void RecvMovementPacket(void* Data, UINT16 DataSize);
 	void RecvAnimPacket(void* Data, UINT16 DataSize);
 	void RecvWeaponPacket(void* Data, UINT16 DataSize);
 
 private:
-	HANDLE IOCPHandle = INVALID_HANDLE_VALUE;
 	SOCKET ListenSocket = INVALID_SOCKET;
+	WSAEVENT AcceptEvent;
+
+	WSAEVENT ClientEvents[CLIENT_MAX];
 
 	unordered_map<EPacketType, std::function<void(void*, UINT16)>> PacketFuncMap;
 	unordered_map<int, ClientInfo> ConnectedPlayers;
@@ -98,7 +96,6 @@ private:
 	int ClientCount = 0;
 
 	vector<thread> IOWorkerThreads;
-	thread IOAcceptThread;
 	thread IOSendThread;
 	thread IOSendBroadCastThread;
 
@@ -106,7 +103,6 @@ private:
 	mutex SendQueLock;
 
 	bool IsWorkThreadRun = true;
-	bool IsAcceptThreadRun = true;
 	bool IsSendThreadRun = true;
 	bool IsSendBroadCastThreadRun = true;
 };

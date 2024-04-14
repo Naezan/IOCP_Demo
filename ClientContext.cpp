@@ -5,60 +5,24 @@ void CClientContext::Init(const UINT32 InIndex)
 	Index = InIndex;
 }
 
-bool CClientContext::ConnectPort(HANDLE InIOCPHandle, SOCKET InSocket)
+void CClientContext::ConnectClient(SOCKET InSocket)
 {
-	// 접속요청이 들어왔을때 클라이언트 소켓정보
 	Socket = InSocket;
-
-	//서버의 포트와 연결
-	if (!BindServerPort(InIOCPHandle))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool CClientContext::BindServerPort(HANDLE InIOCPHandle)
-{
-	// 클라이언트의 소켓을 포트와 연결 후 소켓과 연결된 Handle을 반환
-	HANDLE Result = CreateIoCompletionPort((HANDLE)Socket, InIOCPHandle, (ULONG_PTR)this, 0);
-
-	//서버와 연결 실패
-	if (Result == NULL || Result != InIOCPHandle)
-	{
-		printf_s("[에러] ClientContext : BindIOCPPort() 실패: %d\n", GetLastError());
-		return false;
-	}
-
-	return true;
 }
 
 bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 {
 	if (DataLen <= 0)
 	{
-		//printf_s("데이터 크기 : %d, 보내는 중인 여부 : %d\n", DataLen, IsSending);
 		return false;
 	}
 
 	DWORD Flags = 0;
-	DWORD BytesSent = 0;
 
-	SOverlappedEx* SendPacket = new SOverlappedEx;
-	ZeroMemory(SendPacket, sizeof(SOverlappedEx));
-	SendPacket->WsaBuf.len = DataLen;
-	SendPacket->WsaBuf.buf = new char[DataLen];
-	CopyMemory(SendPacket->WsaBuf.buf, InData, DataLen);
-	SendPacket->Operation = EPacketOperation::SEND;
+	char* SendBuffer = new char[DataLen];
+	CopyMemory(SendBuffer, InData, DataLen);
 
-	int Result = WSASend(Socket,
-		&(SendPacket->WsaBuf),
-		1,
-		&BytesSent,
-		Flags,
-		(LPWSAOVERLAPPED)&(SendPacket->WSAOverlapped),
-		NULL);
+	int Result = send(Socket, SendBuffer, DataLen, Flags);
 
 	if (Result == SOCKET_ERROR)
 	{
@@ -79,23 +43,17 @@ bool CClientContext::ReceivePacket()
 	DWORD Flags = 0;
 	DWORD BytesReceived = 0;
 
-	//Overlapped I/O 정보 셋팅
-	RecvPacket.WsaBuf.buf = RecvBuffer;
-	RecvPacket.WsaBuf.len = MAX_PACKETBUF;
-	RecvPacket.Operation = EPacketOperation::RECV;
-
-	int Result = WSARecv(Socket,
-		&(RecvPacket.WsaBuf),
-		1,
-		&BytesReceived,
-		&Flags,
-		(LPWSAOVERLAPPED)&(RecvPacket.WSAOverlapped),
-		NULL);
+	int Result = recv(Socket, RecvBuffer, MAX_PACKETBUF, Flags);
 
 	//SOCKET_ERROR이면 데이터 수신에 실패함
 	if (Result == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING))
 	{
 		printf_s("[에러] RecvPacket|WSARecv() 실패 : %d\n", WSAGetLastError());
+		return false;
+	}
+
+	if (WSAGetLastError() == WSAEWOULDBLOCK) {
+		printf("[에러] 패킷이 도착하지 않음 : %d\n", WSAGetLastError());
 		return false;
 	}
 

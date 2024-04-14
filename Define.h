@@ -22,6 +22,7 @@
 using namespace std;
 
 #define	MAX_PACKETBUF	1024
+#define	MAX_BUFCAP		1024
 #define SERVER_PORT		9001
 #define SERVER_IP		"127.0.0.1"
 #define CLIENT_MAX		100
@@ -29,19 +30,13 @@ using namespace std;
 // 충돌되지 않는 임의의 포트 지정
 constexpr UINT16 SOCK_MAXCONN = 5;
 
-enum EPacketOperation : uint8_t
-{
-	SEND,
-	RECV,
-};
-
 enum EPacketType : uint16_t
 {
 	Conn_C,
 	Login_C,
 	Login_S,
-	PawnStatus_C,
-	PawnStatus_S,
+	FireEvent_C,
+	FireEvent_S,
 	Movement_C,
 	Movement_S,
 	AnimState_C,
@@ -54,13 +49,6 @@ struct PacketHeader
 {
 	UINT16 PacketSize;
 	UINT16 PacketID;
-};
-
-struct SOverlappedEx
-{
-	WSAOVERLAPPED WSAOverlapped;
-	WSABUF WsaBuf;
-	EPacketOperation Operation;
 };
 
 struct FVector

@@ -16,6 +16,7 @@ CIOCPServer::~CIOCPServer()
 
 void CIOCPServer::OnConnected(UINT16 Index)
 {
+	lock_guard<mutex> Guard(SendQueLock);
 	printf_s("[클라와 연결됨] Client : [%d]\n", Index);
 
 	Shooter::PClientId ConnectPacket;
@@ -23,20 +24,6 @@ void CIOCPServer::OnConnected(UINT16 Index)
 
 	PacketBuffer ConnectBuffer = SerializePacket<Shooter::PClientId>(ConnectPacket, Conn_C, ConnectPacket.index());
 	IOSendPacketQue.push_back(ConnectBuffer);
-}
-
-void CIOCPServer::OnProcessed(UINT16 Index, UINT32 InSize)
-{
-	printf_s("[OnProcessed] Client : [%d], DataSize : %d\n", Index, InSize);
-
-	//클라에게 연결이 되었다는 패킷 전달
-	/*lock_guard<mutex> Guard(SendQueLock);
-
-	Shooter::PClientId LoginPacket;
-	LoginPacket.set_index(Index);
-
-	PacketBuffer LoginBuffer = SerializePacket<Shooter::PClientId>(LoginPacket, Login_S, Index);
-	IOSendPacketQue.push_back(LoginBuffer);*/
 }
 
 void CIOCPServer::OnClosed(UINT16 Index)
@@ -65,6 +52,10 @@ bool CIOCPServer::CreateListenSocket()
 		WSACleanup();
 		return false;
 	}
+
+	/*u_long on = 1;
+	if (::ioctlsocket(ListenSocket, FIONBIO, &on) == INVALID_SOCKET)
+		return false;*/
 
 	cout << "TCP 소켓 생성 성공" << endl;
 	cout << "WsaStatus : " << WsaData.szSystemStatus << endl;
@@ -100,6 +91,16 @@ bool CIOCPServer::InitSocket(int SocketPort)
 		return false;
 	}
 
+	AcceptEvent = WSACreateEvent();
+	WSAEventSelect(ListenSocket, AcceptEvent, FD_ACCEPT);
+
+	/*u_long on = 1;
+	ioctlsocket(ListenSocket, FIONBIO, &on);*/
+
+	for (int i = 0; i < CLIENT_MAX; ++i) {
+		ClientEvents[i] = WSACreateEvent();
+	}
+
 	cout << "서버 소켓 초기화 성공" << endl;
 	return true;
 }
@@ -107,7 +108,7 @@ bool CIOCPServer::InitSocket(int SocketPort)
 bool CIOCPServer::InitServer()
 {
 	PacketFuncMap.emplace(EPacketType::Login_S, std::bind(&CIOCPServer::RecvLoginPacket, this, std::placeholders::_1, std::placeholders::_2));
-	PacketFuncMap.emplace(EPacketType::PawnStatus_S, std::bind(&CIOCPServer::RecvPawnStatusPacket, this, std::placeholders::_1, std::placeholders::_2));
+	PacketFuncMap.emplace(EPacketType::FireEvent_S, std::bind(&CIOCPServer::RecvFireEventPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::Movement_S, std::bind(&CIOCPServer::RecvMovementPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::AnimState_S, std::bind(&CIOCPServer::RecvAnimPacket, this, std::placeholders::_1, std::placeholders::_2));
 	PacketFuncMap.emplace(EPacketType::WeaponState_S, std::bind(&CIOCPServer::RecvWeaponPacket, this, std::placeholders::_1, std::placeholders::_2));
@@ -120,18 +121,6 @@ bool CIOCPServer::InitServer()
 	SYSTEM_INFO sysinfo;
 	GetSystemInfo(&sysinfo);
 	MaxWorkThreadCount = sysinfo.dwNumberOfProcessors * 2 + 1;
-
-	// IOCP 핸들 생성
-	IOCPHandle = CreateIoCompletionPort(
-		INVALID_HANDLE_VALUE,
-		NULL,
-		NULL,
-		MaxWorkThreadCount);
-	if (IOCPHandle == NULL)
-	{
-		printf_s("[에러] Execute() : %d\n", WSAGetLastError());
-		return false;
-	}
 
 	return true;
 }
@@ -146,11 +135,6 @@ void CIOCPServer::ExecuteServer()
 bool CIOCPServer::ExecuteMainThread()
 {
 	if (!CreateWorkThread())
-	{
-		return false;
-	}
-
-	if (!CreateAcceptThread())
 	{
 		return false;
 	}
@@ -182,13 +166,6 @@ void CIOCPServer::CloseThread()
 	}
 	IOWorkerThreads.clear();
 
-	IsAcceptThreadRun = false;
-	closesocket(ListenSocket);
-	if (IOAcceptThread.joinable())
-	{
-		IOAcceptThread.join();
-	}
-
 	IsSendThreadRun = false;
 	if (IOSendThread.joinable())
 	{
@@ -200,8 +177,6 @@ void CIOCPServer::CloseThread()
 	{
 		IOSendBroadCastThread.join();
 	}
-
-	CloseHandle(IOCPHandle);
 }
 
 void CIOCPServer::CreateClient(const UINT32 MaxClientCount)
@@ -228,7 +203,7 @@ bool CIOCPServer::SendPacket(UINT16 ClientIndex, char* PacketData, UINT32 Packet
 			return true;
 		}
 	}
-
+	printf_s("[전송 실패]\n");
 	return false;
 }
 
@@ -259,6 +234,19 @@ void CIOCPServer::DisconnectSocket(CClientContext* ClientContext, bool bIsForce)
 	ClientContext->CloseSocket(bIsForce);
 
 	OnClosed(ClientContext->GetIndex());
+}
+
+int CIOCPServer::GetEmptyClientIndex()
+{
+	for (int i = 0; i < ClientContexts.size(); ++i)
+	{
+		if (!ClientContexts[i]->IsConnected())
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 CClientContext* CIOCPServer::GetEmptyClientContext()
@@ -319,16 +307,6 @@ bool CIOCPServer::CreateWorkThread()
 	return true;
 }
 
-bool CIOCPServer::CreateAcceptThread()
-{
-	IOAcceptThread = thread([this]() {
-		AcceptThread();
-		});
-
-	cout << "AcceptThread 실행..." << endl;
-	return true;
-}
-
 bool CIOCPServer::CreateSendThread()
 {
 	IOSendThread = thread([this]() {
@@ -353,94 +331,83 @@ void CIOCPServer::WorkThread()
 {
 	CClientContext* ClientContext = nullptr;
 	bool bSuccess = true;
-	DWORD TransferredByte = 0;
-	LPOVERLAPPED LpOverlapped = NULL;
 
 	while (IsWorkThreadRun)
 	{
-		// 완료된 입출력 보고가 있는지 확인... WaitingThreadQueue에 대기상태로 등록되고 Overlapped I/O가 있을때까지 대기
-		// (condition_variable의 wait와 유사하게 동작함)
-		bSuccess = GetQueuedCompletionStatus(IOCPHandle,
-			&TransferredByte,		// 데이터 크기
-			(PULONG_PTR)&ClientContext,	// 식별키(CreateIoCompletionPort할때 넣어줬던 값)
-			(LPOVERLAPPED*) & LpOverlapped,				// I/O가 발생했을 때 실제 데이터가 담겨질 구조체
-			INFINITE);
+		DWORD Result = WSAWaitForMultipleEvents(CLIENT_MAX + 1, ClientEvents, FALSE, WSA_INFINITE, FALSE);
 
-		//접속 끊김
-		if (!bSuccess || TransferredByte == 0)
-		{
-			printf_s("socket(%d) 접속 끊김\n", (int)ClientContext->GetSocket());
-			DisconnectSocket(ClientContext);
+		if (Result == WSA_WAIT_FAILED) {
+			std::cerr << "WSAWaitForMultipleEvents failed." << std::endl;
+			break;
+		}
+
+		if (Result == WSA_WAIT_TIMEOUT) {
 			continue;
 		}
 
-		// I/O가 발생과 관계없이 아무런 데이터가 없을때
-		if (TransferredByte == 0 && LpOverlapped == NULL)
-		{
-			IsWorkThreadRun = false;
-			continue;
+		if (Result == WAIT_OBJECT_0) {
+			// 가장 앞쪽 더미 클라이언트 정보 가져오기
+			CClientContext* ClientContext = nullptr;
+			int Index = GetEmptyClientIndex();
+			if (Index != -1)
+			{
+				ClientContext = GetClientContext(Index);
+			}
+
+			if (ClientContext == nullptr)
+			{
+				printf_s("[에러] AcceptThread() Client Full\n");
+				return;
+			}
+
+			SOCKADDR_IN ClientAddr;
+			int AddrLen = sizeof(SOCKADDR_IN);
+			// 새 클라이언트 연결 요청 처리
+			SOCKET ClientSocket = accept(ListenSocket, (sockaddr*)&ClientAddr, &AddrLen);
+			if (ClientSocket != INVALID_SOCKET) {
+				// 클라이언트 소켓을 이벤트 객체에 연결
+				ClientContext->ConnectClient(ClientSocket);
+				WSAEventSelect(ClientSocket, ClientEvents[Index], FD_READ | FD_CLOSE);
+
+				if (!ClientContext->IsConnected()) {
+					std::cerr << "Too many clients, connection rejected." << std::endl;
+					closesocket(ClientSocket);
+				}
+			}
+			else {
+				std::cerr << "accept failed: " << WSAGetLastError() << std::endl;
+			}
+
+			char ClientIP[32] = { 0, };
+			inet_ntop(AF_INET, &(ClientAddr.sin_addr), ClientIP, 32 - 1);
+			printf_s("클라이언트 접속 IP : %s \t Socket : %d\n", ClientIP, (int)ClientContext->GetSocket());
+
+			++ClientCount;
 		}
-
-		SOverlappedEx* LpOverlappedEx = (SOverlappedEx*)LpOverlapped;
-		if (EPacketOperation::RECV == LpOverlappedEx->Operation)
+		else
 		{
-			PacketHeader* Header = (PacketHeader*)ClientContext->GetRecvData();
-			//printf_s("[수신] 클라이언트 : %d \t 수신된 데이터 크기 : %d\n", ClientContext->GetIndex(), Header->PacketSize);
-
-			DeSerializePacket((EPacketType)Header->PacketID, &Header[1], Header->PacketSize - sizeof(PacketHeader) /* 헤더를 제외한 패킷 크기 */);
+			int ClientIndex = Result - WSA_WAIT_EVENT_0;
+			SOCKET ClientSocket = GetClientContext(ClientIndex)->GetSocket();
+			WSANETWORKEVENTS NetEvents;
+			if (WSAEnumNetworkEvents(ClientSocket, ClientEvents[ClientIndex], &NetEvents) == SOCKET_ERROR) {
+				std::cerr << "WSAEnumNetworkEvents failed: " << WSAGetLastError() << std::endl;
+				break;
+			}
+			if (NetEvents.lNetworkEvents & FD_READ) {
+				if (NetEvents.iErrorCode[FD_READ_BIT] == 0) {
+					HandleClient(ClientSocket);
+				}
+				else {
+					std::cerr << "FD_READ failed: " << NetEvents.iErrorCode[FD_READ_BIT] << std::endl;
+				}
+			}
+			if (NetEvents.lNetworkEvents & FD_CLOSE) {
+				std::cout << "Client disconnected." << std::endl;
+				closesocket(ClientSocket);
+				GetClientContext(ClientIndex)->CloseSocket();
+				WSACloseEvent(ClientEvents[ClientIndex]);
+			}
 		}
-		else if (EPacketOperation::SEND == LpOverlappedEx->Operation)
-		{
-			//printf_s("[송신 완료] 클라이언트 : %d \t 데이터가 성공적으로 송신됨\n", ClientContext->GetIndex());
-			//ClientContext->CompleteSendPacket();
-		}
-
-		//OnProcessed(ClientContext->GetIndex(), TransferredByte);
-		ClientContext->ReceivePacket();
-	}
-}
-
-void CIOCPServer::AcceptThread()
-{
-	SOCKADDR_IN ClientAddr;
-	int AddrLen = sizeof(SOCKADDR_IN);
-
-	while (IsAcceptThreadRun)
-	{
-		// 가장 앞쪽 더미 클라이언트 정보 가져오기
-		CClientContext* ClientContext = GetEmptyClientContext();
-		if (ClientContext == NULL)
-		{
-			printf_s("[에러] AcceptThread() Client Full\n");
-			return;
-		}
-
-		// 클라이언트의 접속이 들어올때까지 대기
-		// TODO AcceptEx
-		SOCKET Socket = WSAAccept(ListenSocket, (SOCKADDR*)&ClientAddr, &AddrLen, NULL, NULL);
-		if (Socket == INVALID_SOCKET)
-		{
-			continue;
-		}
-
-		//접속이 들어오면 클라를 서버와 연결 후, 클라는 서버의 응답 기다림
-		if (!ClientContext->ConnectPort(IOCPHandle, Socket))
-		{
-			// 클라가 패킷을 수신에 실패하면 서버와 연결 종료
-			ClientContext->CloseSocket();
-			printf_s("클라 서버 연결 실패 \t Socket : %d\n", (int)ClientContext->GetSocket());
-			return;
-		}
-
-		char ClientIP[32] = { 0, };
-		inet_ntop(AF_INET, &(ClientAddr.sin_addr), ClientIP, 32 - 1);
-		printf_s("클라이언트 접속 IP : %s \t Socket : %d\n", ClientIP, (int)ClientContext->GetSocket());
-
-		OnConnected(ClientContext->GetIndex());
-
-		++ClientCount;
-
-		ClientContext->ReceivePacket();
 	}
 }
 
@@ -473,7 +440,7 @@ void CIOCPServer::SendBroadCastThread()
 
 		if (PacketData.GetSize() > 0)
 		{
-			printf_s("쌓인 데이터 : %d\n", IOSendBCPacketQue.size());
+			//printf_s("쌓인 데이터 : %d\n", IOSendBCPacketQue.size());
 			// 여기서 클라이언트에게 비동기적으로 패킷 전송
 			if (SendPacketBroadCast(PacketData.GetIndex(), PacketData.GetBuffer(), PacketData.GetSize(), PacketData.bIsReliable))
 			{
@@ -546,16 +513,16 @@ void CIOCPServer::SendPrevPlayerPackets()
 	}
 }
 
-void CIOCPServer::RecvPawnStatusPacket(void* Data, UINT16 DataSize)
+void CIOCPServer::RecvFireEventPacket(void* Data, UINT16 DataSize)
 {
 	lock_guard<mutex> Guard(SendQueLock);
 
-	Shooter::PPawnStatus PawnStatusPacket;
-	PawnStatusPacket.ParseFromArray(Data, DataSize);
+	Shooter::PFireEvent FirePacket;
+	FirePacket.ParseFromArray(Data, DataSize);
 
-	PacketBuffer PawnStatusBuffer = SerializePacket<Shooter::PPawnStatus>(PawnStatusPacket, PawnStatus_C, PawnStatusPacket.mutable_id()->index());
+	PacketBuffer FireEventBuffer = SerializePacket<Shooter::PFireEvent>(FirePacket, FireEvent_C, FirePacket.mutable_id()->index());
 	// 플레이어 전체상태 패킷 브로드캐스팅
-	IOSendBCPacketQue.push_back(PawnStatusBuffer);
+	IOSendBCPacketQue.push_back(FireEventBuffer);
 }
 
 void CIOCPServer::RecvMovementPacket(void* Data, UINT16 DataSize)

@@ -1,11 +1,7 @@
-﻿  IOCPServer.cpp
-E:\GameServer\IOCP_Demo\IOCPServer.cpp(476,13): warning C4477: 'printf_s' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  E:\GameServer\IOCP_Demo\IOCPServer.cpp(476,13):
-  consider using '%zd' in the format string
-  
+﻿  ClientContext.cpp
   Generating code
-  2 of 1355 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  24 of 1414 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    7 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   IOCP_Demo.vcxproj -> E:\GameServer\IOCP_Demo\x64\Release\IOCP_Demo.exe

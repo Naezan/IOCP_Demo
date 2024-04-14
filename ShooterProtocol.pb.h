@@ -51,12 +51,12 @@ extern PAnimStateDefaultTypeInternal _PAnimState_default_instance_;
 class PClientId;
 struct PClientIdDefaultTypeInternal;
 extern PClientIdDefaultTypeInternal _PClientId_default_instance_;
+class PFireEvent;
+struct PFireEventDefaultTypeInternal;
+extern PFireEventDefaultTypeInternal _PFireEvent_default_instance_;
 class PMovement;
 struct PMovementDefaultTypeInternal;
 extern PMovementDefaultTypeInternal _PMovement_default_instance_;
-class PPawnStatus;
-struct PPawnStatusDefaultTypeInternal;
-extern PPawnStatusDefaultTypeInternal _PPawnStatus_default_instance_;
 class PRotator;
 struct PRotatorDefaultTypeInternal;
 extern PRotatorDefaultTypeInternal _PRotator_default_instance_;
@@ -70,8 +70,8 @@ extern PWeaponDefaultTypeInternal _PWeapon_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Shooter::PAnimState* Arena::CreateMaybeMessage<::Shooter::PAnimState>(Arena*);
 template<> ::Shooter::PClientId* Arena::CreateMaybeMessage<::Shooter::PClientId>(Arena*);
+template<> ::Shooter::PFireEvent* Arena::CreateMaybeMessage<::Shooter::PFireEvent>(Arena*);
 template<> ::Shooter::PMovement* Arena::CreateMaybeMessage<::Shooter::PMovement>(Arena*);
-template<> ::Shooter::PPawnStatus* Arena::CreateMaybeMessage<::Shooter::PPawnStatus>(Arena*);
 template<> ::Shooter::PRotator* Arena::CreateMaybeMessage<::Shooter::PRotator>(Arena*);
 template<> ::Shooter::PVector* Arena::CreateMaybeMessage<::Shooter::PVector>(Arena*);
 template<> ::Shooter::PWeapon* Arena::CreateMaybeMessage<::Shooter::PWeapon>(Arena*);
@@ -547,6 +547,8 @@ class PWeapon final :
     kChangeNextWeaponFieldNumber = 4,
     kChangePrevWeaponFieldNumber = 5,
     kStartReloadFieldNumber = 6,
+    kAmmoFieldNumber = 7,
+    kClipAmmoFieldNumber = 8,
   };
   // .Shooter.PClientId Id = 1;
   bool has_id() const;
@@ -631,6 +633,32 @@ class PWeapon final :
   void _internal_set_startreload(bool value);
   public:
 
+  // optional uint32 Ammo = 7;
+  bool has_ammo() const;
+  private:
+  bool _internal_has_ammo() const;
+  public:
+  void clear_ammo();
+  uint32_t ammo() const;
+  void set_ammo(uint32_t value);
+  private:
+  uint32_t _internal_ammo() const;
+  void _internal_set_ammo(uint32_t value);
+  public:
+
+  // optional uint32 ClipAmmo = 8;
+  bool has_clipammo() const;
+  private:
+  bool _internal_has_clipammo() const;
+  public:
+  void clear_clipammo();
+  uint32_t clipammo() const;
+  void set_clipammo(uint32_t value);
+  private:
+  uint32_t _internal_clipammo() const;
+  void _internal_set_clipammo(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Shooter.PWeapon)
  private:
   class _Internal;
@@ -647,6 +675,216 @@ class PWeapon final :
     bool changenextweapon_;
     bool changeprevweapon_;
     bool startreload_;
+    uint32_t ammo_;
+    uint32_t clipammo_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ShooterProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PFireEvent final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Shooter.PFireEvent) */ {
+ public:
+  inline PFireEvent() : PFireEvent(nullptr) {}
+  ~PFireEvent() override;
+  explicit PROTOBUF_CONSTEXPR PFireEvent(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PFireEvent(const PFireEvent& from);
+  PFireEvent(PFireEvent&& from) noexcept
+    : PFireEvent() {
+    *this = ::std::move(from);
+  }
+
+  inline PFireEvent& operator=(const PFireEvent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PFireEvent& operator=(PFireEvent&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PFireEvent& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PFireEvent* internal_default_instance() {
+    return reinterpret_cast<const PFireEvent*>(
+               &_PFireEvent_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(PFireEvent& a, PFireEvent& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PFireEvent* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PFireEvent* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PFireEvent* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<PFireEvent>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PFireEvent& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const PFireEvent& from) {
+    PFireEvent::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PFireEvent* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Shooter.PFireEvent";
+  }
+  protected:
+  explicit PFireEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kAimDirFieldNumber = 3,
+    kStartTraceFieldNumber = 4,
+    kRandomSeedFieldNumber = 2,
+  };
+  // .Shooter.PClientId Id = 1;
+  bool has_id() const;
+  private:
+  bool _internal_has_id() const;
+  public:
+  void clear_id();
+  const ::Shooter::PClientId& id() const;
+  PROTOBUF_NODISCARD ::Shooter::PClientId* release_id();
+  ::Shooter::PClientId* mutable_id();
+  void set_allocated_id(::Shooter::PClientId* id);
+  private:
+  const ::Shooter::PClientId& _internal_id() const;
+  ::Shooter::PClientId* _internal_mutable_id();
+  public:
+  void unsafe_arena_set_allocated_id(
+      ::Shooter::PClientId* id);
+  ::Shooter::PClientId* unsafe_arena_release_id();
+
+  // .Shooter.PVector AimDir = 3;
+  bool has_aimdir() const;
+  private:
+  bool _internal_has_aimdir() const;
+  public:
+  void clear_aimdir();
+  const ::Shooter::PVector& aimdir() const;
+  PROTOBUF_NODISCARD ::Shooter::PVector* release_aimdir();
+  ::Shooter::PVector* mutable_aimdir();
+  void set_allocated_aimdir(::Shooter::PVector* aimdir);
+  private:
+  const ::Shooter::PVector& _internal_aimdir() const;
+  ::Shooter::PVector* _internal_mutable_aimdir();
+  public:
+  void unsafe_arena_set_allocated_aimdir(
+      ::Shooter::PVector* aimdir);
+  ::Shooter::PVector* unsafe_arena_release_aimdir();
+
+  // .Shooter.PVector StartTrace = 4;
+  bool has_starttrace() const;
+  private:
+  bool _internal_has_starttrace() const;
+  public:
+  void clear_starttrace();
+  const ::Shooter::PVector& starttrace() const;
+  PROTOBUF_NODISCARD ::Shooter::PVector* release_starttrace();
+  ::Shooter::PVector* mutable_starttrace();
+  void set_allocated_starttrace(::Shooter::PVector* starttrace);
+  private:
+  const ::Shooter::PVector& _internal_starttrace() const;
+  ::Shooter::PVector* _internal_mutable_starttrace();
+  public:
+  void unsafe_arena_set_allocated_starttrace(
+      ::Shooter::PVector* starttrace);
+  ::Shooter::PVector* unsafe_arena_release_starttrace();
+
+  // float RandomSeed = 2;
+  void clear_randomseed();
+  float randomseed() const;
+  void set_randomseed(float value);
+  private:
+  float _internal_randomseed() const;
+  void _internal_set_randomseed(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Shooter.PFireEvent)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Shooter::PClientId* id_;
+    ::Shooter::PVector* aimdir_;
+    ::Shooter::PVector* starttrace_;
+    float randomseed_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ShooterProtocol_2eproto;
@@ -701,7 +939,7 @@ class PClientId final :
                &_PClientId_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(PClientId& a, PClientId& b) {
     a.Swap(&b);
@@ -795,194 +1033,6 @@ class PClientId final :
   struct Impl_ {
     uint32_t index_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ShooterProtocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PPawnStatus final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Shooter.PPawnStatus) */ {
- public:
-  inline PPawnStatus() : PPawnStatus(nullptr) {}
-  ~PPawnStatus() override;
-  explicit PROTOBUF_CONSTEXPR PPawnStatus(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PPawnStatus(const PPawnStatus& from);
-  PPawnStatus(PPawnStatus&& from) noexcept
-    : PPawnStatus() {
-    *this = ::std::move(from);
-  }
-
-  inline PPawnStatus& operator=(const PPawnStatus& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PPawnStatus& operator=(PPawnStatus&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PPawnStatus& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PPawnStatus* internal_default_instance() {
-    return reinterpret_cast<const PPawnStatus*>(
-               &_PPawnStatus_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    4;
-
-  friend void swap(PPawnStatus& a, PPawnStatus& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PPawnStatus* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PPawnStatus* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PPawnStatus* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PPawnStatus>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PPawnStatus& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PPawnStatus& from) {
-    PPawnStatus::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PPawnStatus* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Shooter.PPawnStatus";
-  }
-  protected:
-  explicit PPawnStatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-    kWantToRunFieldNumber = 2,
-    kHealthFieldNumber = 3,
-  };
-  // .Shooter.PClientId Id = 1;
-  bool has_id() const;
-  private:
-  bool _internal_has_id() const;
-  public:
-  void clear_id();
-  const ::Shooter::PClientId& id() const;
-  PROTOBUF_NODISCARD ::Shooter::PClientId* release_id();
-  ::Shooter::PClientId* mutable_id();
-  void set_allocated_id(::Shooter::PClientId* id);
-  private:
-  const ::Shooter::PClientId& _internal_id() const;
-  ::Shooter::PClientId* _internal_mutable_id();
-  public:
-  void unsafe_arena_set_allocated_id(
-      ::Shooter::PClientId* id);
-  ::Shooter::PClientId* unsafe_arena_release_id();
-
-  // optional bool WantToRun = 2;
-  bool has_wanttorun() const;
-  private:
-  bool _internal_has_wanttorun() const;
-  public:
-  void clear_wanttorun();
-  bool wanttorun() const;
-  void set_wanttorun(bool value);
-  private:
-  bool _internal_wanttorun() const;
-  void _internal_set_wanttorun(bool value);
-  public:
-
-  // optional float Health = 3;
-  bool has_health() const;
-  private:
-  bool _internal_has_health() const;
-  public:
-  void clear_health();
-  float health() const;
-  void set_health(float value);
-  private:
-  float _internal_health() const;
-  void _internal_set_health(float value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:Shooter.PPawnStatus)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::Shooter::PClientId* id_;
-    bool wanttorun_;
-    float health_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ShooterProtocol_2eproto;
@@ -1762,6 +1812,356 @@ inline void PWeapon::set_startreload(bool value) {
   // @@protoc_insertion_point(field_set:Shooter.PWeapon.StartReload)
 }
 
+// optional uint32 Ammo = 7;
+inline bool PWeapon::_internal_has_ammo() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
+  return value;
+}
+inline bool PWeapon::has_ammo() const {
+  return _internal_has_ammo();
+}
+inline void PWeapon::clear_ammo() {
+  _impl_.ammo_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000020u;
+}
+inline uint32_t PWeapon::_internal_ammo() const {
+  return _impl_.ammo_;
+}
+inline uint32_t PWeapon::ammo() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.Ammo)
+  return _internal_ammo();
+}
+inline void PWeapon::_internal_set_ammo(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000020u;
+  _impl_.ammo_ = value;
+}
+inline void PWeapon::set_ammo(uint32_t value) {
+  _internal_set_ammo(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.Ammo)
+}
+
+// optional uint32 ClipAmmo = 8;
+inline bool PWeapon::_internal_has_clipammo() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  return value;
+}
+inline bool PWeapon::has_clipammo() const {
+  return _internal_has_clipammo();
+}
+inline void PWeapon::clear_clipammo() {
+  _impl_.clipammo_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000040u;
+}
+inline uint32_t PWeapon::_internal_clipammo() const {
+  return _impl_.clipammo_;
+}
+inline uint32_t PWeapon::clipammo() const {
+  // @@protoc_insertion_point(field_get:Shooter.PWeapon.ClipAmmo)
+  return _internal_clipammo();
+}
+inline void PWeapon::_internal_set_clipammo(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000040u;
+  _impl_.clipammo_ = value;
+}
+inline void PWeapon::set_clipammo(uint32_t value) {
+  _internal_set_clipammo(value);
+  // @@protoc_insertion_point(field_set:Shooter.PWeapon.ClipAmmo)
+}
+
+// -------------------------------------------------------------------
+
+// PFireEvent
+
+// .Shooter.PClientId Id = 1;
+inline bool PFireEvent::_internal_has_id() const {
+  return this != internal_default_instance() && _impl_.id_ != nullptr;
+}
+inline bool PFireEvent::has_id() const {
+  return _internal_has_id();
+}
+inline void PFireEvent::clear_id() {
+  if (GetArenaForAllocation() == nullptr && _impl_.id_ != nullptr) {
+    delete _impl_.id_;
+  }
+  _impl_.id_ = nullptr;
+}
+inline const ::Shooter::PClientId& PFireEvent::_internal_id() const {
+  const ::Shooter::PClientId* p = _impl_.id_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PClientId&>(
+      ::Shooter::_PClientId_default_instance_);
+}
+inline const ::Shooter::PClientId& PFireEvent::id() const {
+  // @@protoc_insertion_point(field_get:Shooter.PFireEvent.Id)
+  return _internal_id();
+}
+inline void PFireEvent::unsafe_arena_set_allocated_id(
+    ::Shooter::PClientId* id) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.id_);
+  }
+  _impl_.id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PFireEvent.Id)
+}
+inline ::Shooter::PClientId* PFireEvent::release_id() {
+  
+  ::Shooter::PClientId* temp = _impl_.id_;
+  _impl_.id_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Shooter::PClientId* PFireEvent::unsafe_arena_release_id() {
+  // @@protoc_insertion_point(field_release:Shooter.PFireEvent.Id)
+  
+  ::Shooter::PClientId* temp = _impl_.id_;
+  _impl_.id_ = nullptr;
+  return temp;
+}
+inline ::Shooter::PClientId* PFireEvent::_internal_mutable_id() {
+  
+  if (_impl_.id_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Shooter::PClientId>(GetArenaForAllocation());
+    _impl_.id_ = p;
+  }
+  return _impl_.id_;
+}
+inline ::Shooter::PClientId* PFireEvent::mutable_id() {
+  ::Shooter::PClientId* _msg = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:Shooter.PFireEvent.Id)
+  return _msg;
+}
+inline void PFireEvent::set_allocated_id(::Shooter::PClientId* id) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.id_;
+  }
+  if (id) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(id);
+    if (message_arena != submessage_arena) {
+      id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, id, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.id_ = id;
+  // @@protoc_insertion_point(field_set_allocated:Shooter.PFireEvent.Id)
+}
+
+// float RandomSeed = 2;
+inline void PFireEvent::clear_randomseed() {
+  _impl_.randomseed_ = 0;
+}
+inline float PFireEvent::_internal_randomseed() const {
+  return _impl_.randomseed_;
+}
+inline float PFireEvent::randomseed() const {
+  // @@protoc_insertion_point(field_get:Shooter.PFireEvent.RandomSeed)
+  return _internal_randomseed();
+}
+inline void PFireEvent::_internal_set_randomseed(float value) {
+  
+  _impl_.randomseed_ = value;
+}
+inline void PFireEvent::set_randomseed(float value) {
+  _internal_set_randomseed(value);
+  // @@protoc_insertion_point(field_set:Shooter.PFireEvent.RandomSeed)
+}
+
+// .Shooter.PVector AimDir = 3;
+inline bool PFireEvent::_internal_has_aimdir() const {
+  return this != internal_default_instance() && _impl_.aimdir_ != nullptr;
+}
+inline bool PFireEvent::has_aimdir() const {
+  return _internal_has_aimdir();
+}
+inline void PFireEvent::clear_aimdir() {
+  if (GetArenaForAllocation() == nullptr && _impl_.aimdir_ != nullptr) {
+    delete _impl_.aimdir_;
+  }
+  _impl_.aimdir_ = nullptr;
+}
+inline const ::Shooter::PVector& PFireEvent::_internal_aimdir() const {
+  const ::Shooter::PVector* p = _impl_.aimdir_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PVector&>(
+      ::Shooter::_PVector_default_instance_);
+}
+inline const ::Shooter::PVector& PFireEvent::aimdir() const {
+  // @@protoc_insertion_point(field_get:Shooter.PFireEvent.AimDir)
+  return _internal_aimdir();
+}
+inline void PFireEvent::unsafe_arena_set_allocated_aimdir(
+    ::Shooter::PVector* aimdir) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.aimdir_);
+  }
+  _impl_.aimdir_ = aimdir;
+  if (aimdir) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PFireEvent.AimDir)
+}
+inline ::Shooter::PVector* PFireEvent::release_aimdir() {
+  
+  ::Shooter::PVector* temp = _impl_.aimdir_;
+  _impl_.aimdir_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Shooter::PVector* PFireEvent::unsafe_arena_release_aimdir() {
+  // @@protoc_insertion_point(field_release:Shooter.PFireEvent.AimDir)
+  
+  ::Shooter::PVector* temp = _impl_.aimdir_;
+  _impl_.aimdir_ = nullptr;
+  return temp;
+}
+inline ::Shooter::PVector* PFireEvent::_internal_mutable_aimdir() {
+  
+  if (_impl_.aimdir_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Shooter::PVector>(GetArenaForAllocation());
+    _impl_.aimdir_ = p;
+  }
+  return _impl_.aimdir_;
+}
+inline ::Shooter::PVector* PFireEvent::mutable_aimdir() {
+  ::Shooter::PVector* _msg = _internal_mutable_aimdir();
+  // @@protoc_insertion_point(field_mutable:Shooter.PFireEvent.AimDir)
+  return _msg;
+}
+inline void PFireEvent::set_allocated_aimdir(::Shooter::PVector* aimdir) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.aimdir_;
+  }
+  if (aimdir) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(aimdir);
+    if (message_arena != submessage_arena) {
+      aimdir = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, aimdir, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.aimdir_ = aimdir;
+  // @@protoc_insertion_point(field_set_allocated:Shooter.PFireEvent.AimDir)
+}
+
+// .Shooter.PVector StartTrace = 4;
+inline bool PFireEvent::_internal_has_starttrace() const {
+  return this != internal_default_instance() && _impl_.starttrace_ != nullptr;
+}
+inline bool PFireEvent::has_starttrace() const {
+  return _internal_has_starttrace();
+}
+inline void PFireEvent::clear_starttrace() {
+  if (GetArenaForAllocation() == nullptr && _impl_.starttrace_ != nullptr) {
+    delete _impl_.starttrace_;
+  }
+  _impl_.starttrace_ = nullptr;
+}
+inline const ::Shooter::PVector& PFireEvent::_internal_starttrace() const {
+  const ::Shooter::PVector* p = _impl_.starttrace_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PVector&>(
+      ::Shooter::_PVector_default_instance_);
+}
+inline const ::Shooter::PVector& PFireEvent::starttrace() const {
+  // @@protoc_insertion_point(field_get:Shooter.PFireEvent.StartTrace)
+  return _internal_starttrace();
+}
+inline void PFireEvent::unsafe_arena_set_allocated_starttrace(
+    ::Shooter::PVector* starttrace) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.starttrace_);
+  }
+  _impl_.starttrace_ = starttrace;
+  if (starttrace) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PFireEvent.StartTrace)
+}
+inline ::Shooter::PVector* PFireEvent::release_starttrace() {
+  
+  ::Shooter::PVector* temp = _impl_.starttrace_;
+  _impl_.starttrace_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Shooter::PVector* PFireEvent::unsafe_arena_release_starttrace() {
+  // @@protoc_insertion_point(field_release:Shooter.PFireEvent.StartTrace)
+  
+  ::Shooter::PVector* temp = _impl_.starttrace_;
+  _impl_.starttrace_ = nullptr;
+  return temp;
+}
+inline ::Shooter::PVector* PFireEvent::_internal_mutable_starttrace() {
+  
+  if (_impl_.starttrace_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Shooter::PVector>(GetArenaForAllocation());
+    _impl_.starttrace_ = p;
+  }
+  return _impl_.starttrace_;
+}
+inline ::Shooter::PVector* PFireEvent::mutable_starttrace() {
+  ::Shooter::PVector* _msg = _internal_mutable_starttrace();
+  // @@protoc_insertion_point(field_mutable:Shooter.PFireEvent.StartTrace)
+  return _msg;
+}
+inline void PFireEvent::set_allocated_starttrace(::Shooter::PVector* starttrace) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.starttrace_;
+  }
+  if (starttrace) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(starttrace);
+    if (message_arena != submessage_arena) {
+      starttrace = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, starttrace, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.starttrace_ = starttrace;
+  // @@protoc_insertion_point(field_set_allocated:Shooter.PFireEvent.StartTrace)
+}
+
 // -------------------------------------------------------------------
 
 // PClientId
@@ -1784,156 +2184,6 @@ inline void PClientId::_internal_set_index(uint32_t value) {
 inline void PClientId::set_index(uint32_t value) {
   _internal_set_index(value);
   // @@protoc_insertion_point(field_set:Shooter.PClientId.Index)
-}
-
-// -------------------------------------------------------------------
-
-// PPawnStatus
-
-// .Shooter.PClientId Id = 1;
-inline bool PPawnStatus::_internal_has_id() const {
-  return this != internal_default_instance() && _impl_.id_ != nullptr;
-}
-inline bool PPawnStatus::has_id() const {
-  return _internal_has_id();
-}
-inline void PPawnStatus::clear_id() {
-  if (GetArenaForAllocation() == nullptr && _impl_.id_ != nullptr) {
-    delete _impl_.id_;
-  }
-  _impl_.id_ = nullptr;
-}
-inline const ::Shooter::PClientId& PPawnStatus::_internal_id() const {
-  const ::Shooter::PClientId* p = _impl_.id_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Shooter::PClientId&>(
-      ::Shooter::_PClientId_default_instance_);
-}
-inline const ::Shooter::PClientId& PPawnStatus::id() const {
-  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.Id)
-  return _internal_id();
-}
-inline void PPawnStatus::unsafe_arena_set_allocated_id(
-    ::Shooter::PClientId* id) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.id_);
-  }
-  _impl_.id_ = id;
-  if (id) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Shooter.PPawnStatus.Id)
-}
-inline ::Shooter::PClientId* PPawnStatus::release_id() {
-  
-  ::Shooter::PClientId* temp = _impl_.id_;
-  _impl_.id_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Shooter::PClientId* PPawnStatus::unsafe_arena_release_id() {
-  // @@protoc_insertion_point(field_release:Shooter.PPawnStatus.Id)
-  
-  ::Shooter::PClientId* temp = _impl_.id_;
-  _impl_.id_ = nullptr;
-  return temp;
-}
-inline ::Shooter::PClientId* PPawnStatus::_internal_mutable_id() {
-  
-  if (_impl_.id_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Shooter::PClientId>(GetArenaForAllocation());
-    _impl_.id_ = p;
-  }
-  return _impl_.id_;
-}
-inline ::Shooter::PClientId* PPawnStatus::mutable_id() {
-  ::Shooter::PClientId* _msg = _internal_mutable_id();
-  // @@protoc_insertion_point(field_mutable:Shooter.PPawnStatus.Id)
-  return _msg;
-}
-inline void PPawnStatus::set_allocated_id(::Shooter::PClientId* id) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.id_;
-  }
-  if (id) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(id);
-    if (message_arena != submessage_arena) {
-      id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, id, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.id_ = id;
-  // @@protoc_insertion_point(field_set_allocated:Shooter.PPawnStatus.Id)
-}
-
-// optional bool WantToRun = 2;
-inline bool PPawnStatus::_internal_has_wanttorun() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool PPawnStatus::has_wanttorun() const {
-  return _internal_has_wanttorun();
-}
-inline void PPawnStatus::clear_wanttorun() {
-  _impl_.wanttorun_ = false;
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline bool PPawnStatus::_internal_wanttorun() const {
-  return _impl_.wanttorun_;
-}
-inline bool PPawnStatus::wanttorun() const {
-  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.WantToRun)
-  return _internal_wanttorun();
-}
-inline void PPawnStatus::_internal_set_wanttorun(bool value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.wanttorun_ = value;
-}
-inline void PPawnStatus::set_wanttorun(bool value) {
-  _internal_set_wanttorun(value);
-  // @@protoc_insertion_point(field_set:Shooter.PPawnStatus.WantToRun)
-}
-
-// optional float Health = 3;
-inline bool PPawnStatus::_internal_has_health() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool PPawnStatus::has_health() const {
-  return _internal_has_health();
-}
-inline void PPawnStatus::clear_health() {
-  _impl_.health_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline float PPawnStatus::_internal_health() const {
-  return _impl_.health_;
-}
-inline float PPawnStatus::health() const {
-  // @@protoc_insertion_point(field_get:Shooter.PPawnStatus.Health)
-  return _internal_health();
-}
-inline void PPawnStatus::_internal_set_health(float value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.health_ = value;
-}
-inline void PPawnStatus::set_health(float value) {
-  _internal_set_health(value);
-  // @@protoc_insertion_point(field_set:Shooter.PPawnStatus.Health)
 }
 
 // -------------------------------------------------------------------
