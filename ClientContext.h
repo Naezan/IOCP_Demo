@@ -8,7 +8,7 @@ public:
 	CClientContext()
 	{
 		Index = -1;
-		ZeroMemory(&RecvBuffer, MAX_PACKETBUF);
+		ZeroMemory(&RecvContext.RecvBuf, MAX_PACKETBUF);
 		Socket = INVALID_SOCKET;
 	}
 	~CClientContext()
@@ -19,7 +19,7 @@ public:
 	inline const UINT32 GetIndex() const { return Index; }
 	inline bool IsConnected() const { return Socket != INVALID_SOCKET; }
 	inline SOCKET& GetSocket() { return Socket; }
-	char* GetRecvData() { return RecvBuffer; }
+	char* GetRecvData() { return RecvContext.RecvBuf; }
 
 public:
 	void Init(const UINT32 InIndex);
@@ -32,6 +32,6 @@ public:
 private:
 	INT32 Index;
 	SOCKET Socket;
-	char RecvBuffer[MAX_PACKETBUF];
+	OverlappedEx RecvContext;
 	mutex RecvLock;
 };

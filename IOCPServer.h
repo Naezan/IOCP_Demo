@@ -7,9 +7,23 @@
 class CIOCPServer
 {
 public:
-	CIOCPServer() {}
-	virtual ~CIOCPServer();
+	static CIOCPServer& GetInstance() {
+		if (!Instance) {
+			Instance = new CIOCPServer();
+		}
+		return *Instance;
+	}
+	~CIOCPServer();
 
+	CIOCPServer(CIOCPServer const&) = delete;
+	void operator=(CIOCPServer const&) = delete;
+
+private:
+	// 생성자를 private으로 선언하여 외부에서 인스턴스 생성을 막음
+	CIOCPServer() {}
+	static CIOCPServer* Instance;
+
+public:
 	// 서버와 클라가 연결되었을 때 호출
 	virtual void OnConnected(UINT16 Index);
 	// 서버와 클라의 접속이 끊겼을 때 호출
@@ -39,17 +53,18 @@ public:
 	PacketBuffer GetPendingBCPacket();
 
 private:
+	bool CreateAcceptThread();
 	bool CreateWorkThread();
-	// 클러 접속 수신용 스레드
 	bool CreateSendThread();
 	bool CreateSendBroadCastThread();
 
+	void AcceptThread();
 	void WorkThread();
 	// 데이터 전송은 한쓰레드에서 한 패킷씩
 	void SendThread();
 	void SendBroadCastThread();
 
-private:
+public:
 	template<typename T>
 	PacketBuffer SerializePacket(T PPacket, UINT8 PType, UINT16 ClientIndex)
 	{
@@ -72,18 +87,17 @@ private:
 	}
 	void DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 DataSize);
 
+private:
 	void RecvLoginPacket(void* Data, UINT16 DataSize);
-	void SendPrevPlayerPackets();
+	void SendLoginedPlayerPackets(int TargetClientIndex);
 	void RecvFireEventPacket(void* Data, UINT16 DataSize);
 	void RecvMovementPacket(void* Data, UINT16 DataSize);
 	void RecvAnimPacket(void* Data, UINT16 DataSize);
 	void RecvWeaponPacket(void* Data, UINT16 DataSize);
 
 private:
+	HANDLE IOHandle;
 	SOCKET ListenSocket = INVALID_SOCKET;
-	WSAEVENT AcceptEvent;
-
-	WSAEVENT ClientEvents[CLIENT_MAX];
 
 	unordered_map<EPacketType, std::function<void(void*, UINT16)>> PacketFuncMap;
 	unordered_map<int, ClientInfo> ConnectedPlayers;
@@ -96,12 +110,14 @@ private:
 	int ClientCount = 0;
 
 	vector<thread> IOWorkerThreads;
+	thread IOAcceptThread;
 	thread IOSendThread;
 	thread IOSendBroadCastThread;
 
 	mutex SendLock;
 	mutex SendQueLock;
 
+	bool IsAcceptThreadRun = true;
 	bool IsWorkThreadRun = true;
 	bool IsSendThreadRun = true;
 	bool IsSendBroadCastThreadRun = true;

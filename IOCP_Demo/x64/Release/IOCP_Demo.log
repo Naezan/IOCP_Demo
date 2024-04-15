@@ -1,7 +1,9 @@
-﻿  ClientContext.cpp
+﻿  IOCPServer.cpp
+  UEServer.cpp
+  main.cpp
   Generating code
-  24 of 1414 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
+  11 of 1434 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   IOCP_Demo.vcxproj -> E:\GameServer\IOCP_Demo\x64\Release\IOCP_Demo.exe

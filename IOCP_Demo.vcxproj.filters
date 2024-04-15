@@ -51,5 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ShooterProtocol.proto" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
