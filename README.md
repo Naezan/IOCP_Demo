@@ -5,7 +5,7 @@ Windows 기반의 IOCP서버
 영상 : https://youtu.be/1Cz-FqZi5eY
 
 ## 동작 방식
-![서버동작](https://github.com/Naezan/iocp_demo/blob/main/image/서버동작.png?raw=true)
+![서버동작](https://github.com/Naezan/IOCP_Demo/blob/main/image/서버동작.png?raw=true)
 
 서버는 클라이언트가 접속될 때까지 대기하고 클라가 접속을 하면 패킷타입에 맞게 데이터를 역직렬화 및 직렬화하여 재전송
 움직임, 애니메이션같은 데이터의 경우 모든 플레이어에게 브로드캐스팅
