@@ -5,13 +5,13 @@ Windows 기반의 IOCP서버
 영상 : https://youtu.be/1Cz-FqZi5eY
 
 ## 동작 방식
-![서버동작](https://github.com/Naezan/IOCP_Demo/blob/main/Image/서버동작.png?raw=true)
+![서버동작](https://github.com/Naezan/IOCP_Demo/blob/main/image/서버동작.png?raw=true)
 
 서버는 클라이언트가 접속될 때까지 대기하고 클라가 접속을 하면 패킷타입에 맞게 데이터를 역직렬화 및 직렬화하여 재전송
 움직임, 애니메이션같은 데이터의 경우 모든 플레이어에게 브로드캐스팅
 
 ## 서버 구조
-![서버구조](https://github.com/Naezan/IOCP_Demo/blob/main/Image/서버구조.png?raw=true)
+![서버구조](https://github.com/Naezan/IOCP_Demo/blob/main/image/서버구조.png?raw=true)
 
 AcceptThread는 클라의 접속을 담당하고 연결이 되었을 시에 클라에게 Conn패킷을 Proto로 직렬화하여 전송하는 역할
 WorkThread는 수신받은 클라의 데이터를 다른 클라이언트에게 역직렬화/직렬화하여 재전송하는 역할
