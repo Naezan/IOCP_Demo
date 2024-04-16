@@ -1,8 +1,8 @@
 # IOCP_Demo
 Windows 기반의 IOCP서버
 
-제작 기간 : 2024-04-01 ~ 2024-04-15 (15일)
-영상 : https://youtu.be/1Cz-FqZi5eY
+제작 기간 : 2024-04-01 ~ 2024-04-15 (15일)  
+영상 : https://youtu.be/1Cz-FqZi5eY  
 
 ## 동작 방식
 ![서버동작](https://github.com/Naezan/IOCP_Demo/blob/main/img/ServerStep.png?raw=true)
