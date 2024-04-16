@@ -1,9 +1,9 @@
 e:\gameserver\iocp_demo\iocp_demo\x64\release\vc143.pdb
 e:\gameserver\iocp_demo\iocp_demo\x64\release\main.obj
-e:\gameserver\iocp_demo\iocp_demo\x64\release\ueserver.obj
-e:\gameserver\iocp_demo\iocp_demo\x64\release\packet.obj
 e:\gameserver\iocp_demo\iocp_demo\x64\release\iocpserver.obj
+e:\gameserver\iocp_demo\iocp_demo\x64\release\ueserver.obj
 e:\gameserver\iocp_demo\iocp_demo\x64\release\shooterprotocol.pb.obj
+e:\gameserver\iocp_demo\iocp_demo\x64\release\packet.obj
 e:\gameserver\iocp_demo\iocp_demo\x64\release\clientcontext.obj
 e:\gameserver\iocp_demo\x64\release\iocp_demo.exe
 e:\gameserver\iocp_demo\x64\release\iocp_demo.pdb

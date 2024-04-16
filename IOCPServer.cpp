@@ -443,12 +443,6 @@ void CIOCPServer::WorkThread()
 			continue;
 		}
 
-		if (Overlapped == nullptr)
-		{
-			printf_s("데이터를 보냈습니다.\n");
-			continue;
-		}
-
 		//Accept가 아닐때
 		if (ClientKey->GetSocket() != ListenSocket)
 		{
