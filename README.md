@@ -7,16 +7,16 @@ Windows 기반의 IOCP서버
 ## 동작 방식
 ![서버동작](https://github.com/Naezan/IOCP_Demo/blob/main/img/ServerStep.png?raw=true)
 
-서버는 클라이언트가 접속될 때까지 대기하고 클라가 접속을 하면 패킷타입에 맞게 데이터를 역직렬화 및 직렬화하여 재전송
-움직임, 애니메이션같은 데이터의 경우 모든 플레이어에게 브로드캐스팅
+서버는 클라이언트가 접속될 때까지 대기하고 클라가 접속을 하면 패킷타입에 맞게 데이터를 역직렬화 및 직렬화하여 재전송  
+움직임, 애니메이션같은 데이터의 경우 모든 플레이어에게 브로드캐스팅  
 
 ## 서버 구조
 ![서버구조](https://github.com/Naezan/IOCP_Demo/blob/main/img/ServerStructure.png?raw=true)
 
-AcceptThread는 클라의 접속을 담당하고 연결이 되었을 시에 클라에게 Conn패킷을 Proto로 직렬화하여 전송하는 역할
-WorkThread는 수신받은 클라의 데이터를 다른 클라이언트에게 역직렬화/직렬화하여 재전송하는 역할
-SendThread는 패킷을 하나의 클라이언트에게 송신하는 역할, 반면 SendBroadCastThread는 모든 클라이언트에게 송신하는 역할
-이때 Send과정은 모두 Queue자료구조를 통해서 순차적으로 송신됨
+AcceptThread는 클라의 접속을 담당하고 연결이 되었을 시에 클라에게 Conn패킷을 Proto로 직렬화하여 전송하는 역할  
+WorkThread는 수신받은 클라의 데이터를 다른 클라이언트에게 역직렬화/직렬화하여 재전송하는 역할  
+SendThread는 패킷을 하나의 클라이언트에게 송신하는 역할, 반면 SendBroadCastThread는 모든 클라이언트에게 송신하는 역할  
+이때 Send과정은 모두 Queue자료구조를 통해서 순차적으로 송신됨  
 
 ## 패킷 코드
 
@@ -27,8 +27,8 @@ PacketFuncMap.emplace(EPacketType::Movement_S, std::bind(&CIOCPServer::RecvMovem
 PacketFuncMap.emplace(EPacketType::AnimState_S, std::bind(&CIOCPServer::RecvAnimPacket, this, std::placeholders::_1, std::placeholders::_2));
 PacketFuncMap.emplace(EPacketType::WeaponState_S, std::bind(&CIOCPServer::RecvWeaponPacket, this, std::placeholders::_1, std::placeholders::_2));
 ```
-패킷을 전달받았을 때 알맞는 패킷 타입에 맞게 역직렬화를 수행해야 하므로 unordered_map자료구조를 이용하여 적절한 패킷 함수를 호출
-
+패킷을 전달받았을 때 알맞는 패킷 타입에 맞게 역직렬화를 수행해야 하므로 unordered_map자료구조를 이용하여 적절한 패킷 함수를 호출  
+<br/><br/>
 ```
 패킷 버퍼는 단순히 보낼 데이터를 담고있는 공간
 struct PacketBuffer
@@ -68,9 +68,9 @@ PacketBuffer SerializePacket(T PPacket, UINT8 PType, UINT16 ClientIndex)
 	return PBuffer;
 }
 ```
-
 T는 Protobuf에서 만들어둔 message타입으로 SerializeToArray함수를 통해 Protobuf에서 셋팅해둔 값을 PacketBuffer로 직렬화
 이때 헤더를 PacketBuffer에 미리 저장하고 그 다음공간에 proto데이터를 저장하는 이유는 이후 역직렬화과정에서 헤더를 통해 데이터를 효율적으로 읽어들이기 위함
+<br/><br/>
 
 ```
 void CIOCPServer::DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 DataSize)
@@ -87,8 +87,8 @@ void CIOCPServer::DeSerializePacket(EPacketType InPacketID, void* Data, UINT16 D
 	}
 }
 ```
-
 데이터를 수신받으면 패킷타입(ID)와 데이터, 데이터 크기를 PacketFuncMap에 적절히 전달하여 proto의 messasge타입에 맞는 적절한 Recv함수를 호출
+<br/><br/>
 
 ## 한계점
 - 서버에서 충돌, 레이캐스팅을 수행하기 위해서 언리얼 내부 코드가 필요했기에 충돌 및 피격 기능은 클라이언트에서 우선적으로 처리해야했었다.
