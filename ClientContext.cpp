@@ -20,7 +20,7 @@ bool CClientContext::SendPendingPacket(char* InData, int DataLen)
 	DWORD Flags = 0;
 	DWORD BytesSend = 0;
 
-	OverlappedEx* SendWsaBuf = new OverlappedEx();
+	std::unique_ptr<OverlappedEx> SendWsaBuf = std::make_unique<OverlappedEx>();
 	SendWsaBuf->WsaBuf.buf = RecvContext.RecvBuf;
 	SendWsaBuf->WsaBuf.len = DataLen;
 	CopyMemory(SendWsaBuf->WsaBuf.buf, InData, DataLen);
